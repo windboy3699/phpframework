@@ -1,5 +1,11 @@
 <?php
-class Appcore_Model_UserModel extends SPF_Db_BaseModel
+/**
+ * Created by PhpStorm.
+ * @package /
+ * @author  XiaodongPan
+ * @version $Id: UserModel.php 2017-03-16 $
+ */
+class Kernel_Game_Model_UserModel extends SPF_Db_BaseModel
 {
     protected $dbName = 'demo';
 

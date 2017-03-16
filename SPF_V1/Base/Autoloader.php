@@ -7,118 +7,149 @@
  */
 class SPF_Autoloader
 {
-    private static $paths = [];
+    const PREFIX_SPF = 'SPF';
 
-    /**
-     * 路径设置
-     * @param $paths
-     */
-    public static function setPaths($paths)
+    const PREFIX_KERNEL = 'Kernel';
+
+    const CLASSES = 'classes';
+
+    private $spfPath = '';
+
+    private $appPath = '';
+
+    private $kernelPath = '';
+
+    private $classesPaths = [];
+
+    private $suffixes = [
+        'Controller',
+        'Model',
+        'Service',
+        'Interceptor',
+    ];
+
+    public function __construct($appPath, $kernelPath, $classesPaths = [])
     {
-        isset($paths['spf']) && self::$paths['spf'] = $paths['spf'];
-        isset($paths['appcore']) && self::$paths['appcore'] = $paths['appcore'];
-        isset($paths['controllers']) && self::$paths['controllers'] = $paths['controllers'];
-        isset($paths['models']) && self::$paths['models'] = $paths['models'];
-        isset($paths['services']) && self::$paths['services'] = $paths['services'];
-        isset($paths['interceptors']) && self::$paths['interceptors'] = $paths['interceptors'];
-        isset($paths['classes']) && self::$paths['classes'] = $paths['classes'];
+        $this->spfPath = dirname(dirname(__FILE__));
+        $this->appPath = $appPath;
+        $this->kernelPath = $kernelPath;
+        $this->classesPaths = $classesPaths;
     }
 
-    public static function loadClass($className)
+    public function loadClass($className)
     {
         if (class_exists($className)) {
             return ;
         }
-        if (strpos($className, 'SPF') !== false) {
-            self::loadSPFClass($className);
-        } elseif (strpos($className, 'Sportscore_') !== false) {
-            self::loadSportscoreClass($className);
+        if (substr($className, 0, 3) == self::PREFIX_SPF) {
+            $this->loadSPFClass($className);
+        } elseif (substr($className, 0, 6) ==  self::PREFIX_KERNEL) {
+            $this->loadKernelClass($className);
         } else {
-            self::loadAppClass($className);
+            if ($this->loadSuffixClass($className) == false) {
+                $this->loadClasses($className);
+            };
         }
     }
 
     /**
      * 加载SPF框架类
+     * 先加载SPF_Cache_Memcache -> SPF/Cache/Memcache.php
+     * 否则加载SPF_Controller -> SPF/Controller/Controller.php
+     * 否则加载SPF_Request -> SPF/Base/Request
      * @param $className
      * @throws SPF_Exception
      */
-    private static function loadSPFClass($className)
+    private function loadSPFClass($className)
     {
-        if ($className == 'SPF') {
-            require_once self::$paths['spf'] . '/SPF.php';
+        if ($className == self::PREFIX_SPF) {
+            require_once $this->spfPath . DIRECTORY_SEPARATOR . 'SPF.php';
         }
         $classFile = str_replace('_', DIRECTORY_SEPARATOR, substr($className, 4));
-        if (is_file(self::$paths['spf'] . DIRECTORY_SEPARATOR . $classFile .'.php')) {
-            //加载SPF_Cache_Memcache => SPF/Cache/Memcache.php
-            $classFile = self::$paths['spf'] . DIRECTORY_SEPARATOR . $classFile .'.php';
-        } elseif (is_dir(self::$paths['spf'] . DIRECTORY_SEPARATOR . $classFile)) {
-            //加载SPF_Controller => SPF/Controller/Controller.php
-            $classFile = self::$paths['spf'] . DIRECTORY_SEPARATOR . $classFile . DIRECTORY_SEPARATOR . trim(substr($classFile, strrpos($classFile, DIRECTORY_SEPARATOR)), DIRECTORY_SEPARATOR) .'.php';
+        if (is_file($this->spfPath . DIRECTORY_SEPARATOR . $classFile .'.php')) {
+            $classFile = $this->spfPath . DIRECTORY_SEPARATOR . $classFile .'.php';
+        } elseif (is_dir($this->spfPath . DIRECTORY_SEPARATOR . $classFile)) {
+            $classFile = $this->spfPath . DIRECTORY_SEPARATOR . $classFile . DIRECTORY_SEPARATOR . trim(substr($classFile, strrpos($classFile, DIRECTORY_SEPARATOR)), DIRECTORY_SEPARATOR) .'.php';
         } elseif (!strpos($classFile, DIRECTORY_SEPARATOR)) {
-            //加载SPF_Request => SPF/Base/Request
-            $classFile = self::$paths['spf'] . DIRECTORY_SEPARATOR . 'Base' . DIRECTORY_SEPARATOR . $classFile . '.php';
+            $classFile = $this->spfPath . DIRECTORY_SEPARATOR . 'Base' . DIRECTORY_SEPARATOR . $classFile . '.php';
         }
         if (!is_file($classFile)) {
             throw new SPF_Exception('自动加载的类不存在：'. $className);
         }
-        require_once $classFile;
+        return require_once $classFile;
     }
 
-    private static function loadSportscoreClass($className)
+    private function loadKernelClass($className)
     {
-        $className = str_replace('Sportscore_', '', $className);
-        $path = self::$paths['appcore'];
-        if (empty($path)) {
-            return ;
+        $className = str_replace(self::PREFIX_KERNEL . '_', '', $className);
+        if (empty($this->kernelPath)) {
+            return false;
         }
         $segs = explode('_', $className);
         $fileName = end($segs);
         array_pop($segs);
         if ($segs) {
             array_walk($segs,function(&$v,$k){$v = strtolower($v);});
-            $path .= DIRECTORY_SEPARATOR . implode(DIRECTORY_SEPARATOR, $segs);
+            $this->kernelPath .= DIRECTORY_SEPARATOR . implode(DIRECTORY_SEPARATOR, $segs);
         }
-        $classPath = $path . DIRECTORY_SEPARATOR . $fileName . '.php';
+        $classPath = $this->kernelPath . DIRECTORY_SEPARATOR . $fileName . '.php';
         if (is_file($classPath)) {
-            require_once $classPath;
+            return require_once $classPath;
         } else {
-            return ;
+            return false;
         }
     }
 
     /**
-     * 加载App下Controller,Model,Service结尾的类
+     * 加载特定后缀结尾的类
      * @param $className
      */
-    private static function loadAppClass($className)
+    private function loadSuffixClass($className)
     {
-        if (strpos($className, 'Model')) {
-            $path = self::$paths['models'];
-        } elseif (strpos($className, 'Service')) {
-            $path = self::$paths['services'];
-        } elseif (strpos($className, 'Controller')) {
-            $path = self::$paths['controllers'];
-        } elseif (strpos($className, 'Interceptor')) {
-            $path = self::$paths['interceptors'];
-        } else {
-            $path = self::$paths['classes'];
+        $classlen = strlen($className);
+        $path = '';
+        foreach ($this->suffixes as $suffex) {
+            $index = strrpos($className, $suffex);
+            if($index && (($classlen - strlen($suffex)) == $index)) {
+                $path = $this->appPath . DIRECTORY_SEPARATOR . strtolower($suffex);
+                break;
+            }
         }
-        if (empty($path)) {
-            return ;
+        if ($path) {
+            $segs = explode('_', $className);
+            $fileName = end($segs);
+            array_pop($segs);
+            if ($segs) {
+                array_walk($segs,function(&$v,$k){$v = strtolower($v);});
+                $path .= DIRECTORY_SEPARATOR . implode(DIRECTORY_SEPARATOR, $segs);
+            }
+            $classPath = $path . DIRECTORY_SEPARATOR . $fileName . '.php';
+            if (is_file($classPath)) {
+                return require_once $classPath;
+            }
         }
-        $segs = explode('_', $className);
-        $fileName = end($segs);
-        array_pop($segs);
-        if ($segs) {
-            array_walk($segs,function(&$v,$k){$v = strtolower($v);});
-            $path .= DIRECTORY_SEPARATOR . implode(DIRECTORY_SEPARATOR, $segs);
+        return false;
+    }
+
+    /**
+     * 加载/classes目录下的类
+     * @param $className
+     */
+    private function loadClasses($className)
+    {
+        foreach ($this->classesPaths as $classPath) {
+            $segs = explode('_', $className);
+            $fileName = end($segs);
+            array_pop($segs);
+            if ($segs) {
+                array_walk($segs,function(&$v,$k){$v = strtolower($v);});
+                $classPath .= DIRECTORY_SEPARATOR . implode(DIRECTORY_SEPARATOR, $segs);
+            }
+            $classPath .= DIRECTORY_SEPARATOR . $fileName . '.php';
+            if (is_file($classPath)) {
+                return require_once $classPath;
+            }
         }
-        $classPath = $path . DIRECTORY_SEPARATOR . $fileName . '.php';
-        if (is_file($classPath)) {
-            require_once $classPath;
-        } else {
-            return ;
-        }
+        return false;
     }
 }

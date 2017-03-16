@@ -55,7 +55,7 @@ final class SPF
     {
         $this->router = new SPF_Controller_Router();
         $this->router->setMapping($this->getConfig('mappings', 'route', []));
-        $this->router->setControllerPath($this->options['controllerPath']);
+        $this->router->setControllerPath($this->options['appPath'] . DIRECTORY_SEPARATOR . 'controller');
         $this->router->parse();
 
         //执行拦截器before
@@ -229,23 +229,17 @@ final class SPF
     }
 
     /**
-     * 注册自动加载方法
+     * 注册自动加载
      */
     public function registerAutoloader()
     {
-        $paths = $this->options['loadPath'];
-        $paths['spf'] = dirname(__FILE__);
-        SPF_Autoloader::setPaths($paths);
-        spl_autoload_register(array('SPF_Autoloader', 'loadClass'));
+        $autoloader = new SPF_Autoloader(
+            $this->options['appPath'],
+            $this->options['loadPath']['kernel'],
+            $this->options['loadPath']['classes']
+        );
+        spl_autoload_register(array($autoloader, 'loadClass'));
     }
 }
 
 require_once dirname(__FILE__) . '/Base/Autoloader.php';
-
-//调试断点输出
-function p($var)
-{
-    echo '<pre>';
-    print_r($var);
-    exit;
-}
