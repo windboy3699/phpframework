@@ -16,7 +16,7 @@ abstract class AbstractController extends SPF_Controller
     protected function getView()
     {
         if ($this->view === null) {
-            $this->view = SPF_View::create(APP_PATH . '/views/');
+            $this->view = SPF_View::create(APP_PATH . '/view/');
         }
         return $this->view;
     }

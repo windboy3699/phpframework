@@ -74,7 +74,7 @@ class SPF_Autoloader
             $classFile = $this->spfPath . DIRECTORY_SEPARATOR . 'Base' . DIRECTORY_SEPARATOR . $classFile . '.php';
         }
         if (!is_file($classFile)) {
-            throw new SPF_Exception('自动加载的类不存在：'. $className);
+            return false;
         }
         return require_once $classFile;
     }
