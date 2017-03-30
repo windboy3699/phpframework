@@ -9,15 +9,9 @@ class SPF_Autoloader
 {
     const PREFIX_SPF = 'SPF';
 
-    const PREFIX_KERNEL = 'Kernel';
-
-    const CLASSES = 'classes';
-
     private $spfPath = '';
 
     private $appPath = '';
-
-    private $kernelPath = '';
 
     private $classesPaths = [];
 
@@ -28,27 +22,22 @@ class SPF_Autoloader
         'Interceptor',
     ];
 
-    public function __construct($appPath, $kernelPath, $classesPaths = [])
+    public function __construct($appPath, $classesPaths = [])
     {
         $this->spfPath = dirname(dirname(__FILE__));
         $this->appPath = $appPath;
-        $this->kernelPath = $kernelPath;
         $this->classesPaths = $classesPaths;
     }
 
-    public function loadClass($className)
+    public function load($className)
     {
         if (class_exists($className)) {
             return ;
         }
         if (substr($className, 0, 3) == self::PREFIX_SPF) {
             $this->loadSPFClass($className);
-        } elseif (substr($className, 0, 6) ==  self::PREFIX_KERNEL) {
-            $this->loadKernelClass($className);
-        } else {
-            if ($this->loadSuffixClass($className) == false) {
-                $this->loadClasses($className);
-            };
+        } elseif ($this->loadClasses($className) == false) {
+            $this->loadSuffixClass($className);
         }
     }
 
@@ -79,27 +68,6 @@ class SPF_Autoloader
         return require_once $classFile;
     }
 
-    private function loadKernelClass($className)
-    {
-        $className = str_replace(self::PREFIX_KERNEL . '_', '', $className);
-        if (empty($this->kernelPath)) {
-            return false;
-        }
-        $segs = explode('_', $className);
-        $fileName = end($segs);
-        array_pop($segs);
-        if ($segs) {
-            array_walk($segs,function(&$v,$k){$v = strtolower($v);});
-            $this->kernelPath .= DIRECTORY_SEPARATOR . implode(DIRECTORY_SEPARATOR, $segs);
-        }
-        $classPath = $this->kernelPath . DIRECTORY_SEPARATOR . $fileName . '.php';
-        if (is_file($classPath)) {
-            return require_once $classPath;
-        } else {
-            return false;
-        }
-    }
-
     /**
      * 加载特定后缀结尾的类
      * @param $className
@@ -120,7 +88,7 @@ class SPF_Autoloader
             $fileName = end($segs);
             array_pop($segs);
             if ($segs) {
-                array_walk($segs,function(&$v,$k){$v = strtolower($v);});
+                array_walk($segs, function(&$v, $k){$v = strtolower($v);});
                 $path .= DIRECTORY_SEPARATOR . implode(DIRECTORY_SEPARATOR, $segs);
             }
             $classPath = $path . DIRECTORY_SEPARATOR . $fileName . '.php';
@@ -142,7 +110,7 @@ class SPF_Autoloader
             $fileName = end($segs);
             array_pop($segs);
             if ($segs) {
-                array_walk($segs,function(&$v,$k){$v = strtolower($v);});
+                array_walk($segs, function(&$v, $k){$v = strtolower($v);});
                 $classPath .= DIRECTORY_SEPARATOR . implode(DIRECTORY_SEPARATOR, $segs);
             }
             $classPath .= DIRECTORY_SEPARATOR . $fileName . '.php';

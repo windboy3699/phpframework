@@ -7,5 +7,8 @@
  */
 class Kernel_Shop_Service_PayService
 {
-
+    public static function say()
+    {
+        echo 'say yeah';
+    }
 }

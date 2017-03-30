@@ -9,21 +9,19 @@ class Mobile_V1_HelloController extends AbstractController
 {
     public function showAction()
     {
-        //autoload test
-
+        //test autoload
         $model = new Kernel_Game_Model_UserModel();
+        //echo $model->tableName();exit;
+
+        //Kernel_Game_Model_UserModel::say();exit;
 
         $pro = new Shop_Product();
 
         $vip = new Video_Pay_Vip();
 
-
         $player = new PlayerModel();
 
-        //echo $vip->name;
-
-        //echo $model->tableName();
-
+        //echo $player->name;exit;
 
         $hello = $this->request->getParam('hello', '');
 

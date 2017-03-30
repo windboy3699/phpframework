@@ -11,7 +11,7 @@ class SPF_Controller_Router
     const DEFAULT_CONTROLLER = 'index';
     const DEFAULT_ACTION = 'index';
 
-    const C_A_SEPARATE = '::';
+    const ACTION_SEPARATE = '@';
 
     private $path;
 
@@ -72,7 +72,7 @@ class SPF_Controller_Router
                 $fullPattern = '/' . $pattern . '/';
                 if (preg_match($fullPattern, $path, $matches)) {
                     $this->matches = $matches;
-                    $caArray = explode(self::C_A_SEPARATE, $key);
+                    $caArray = explode(self::ACTION_SEPARATE, $key);
                     $controllerArray = explode('_', $caArray[0]);
                     $endName = end($controllerArray);
                     $endName[0] = strtolower($endName[0]);

@@ -10,28 +10,35 @@ final class SPF
 {
     private static $instance;
 
-    private $options = [];
-
+    /**
+     * @var SPF_Controller_Router
+     */
     private $router;
 
+    /**
+     * @var SPF_Request
+     */
     private $request;
+
+    private $appPath;
 
     private $components = array();
 
-    private function __construct($options)
+    private function __construct($appPath)
     {
-        $this->options = array_merge($this->options, $options);
+        $this->appPath = $appPath;
     }
 
     /**
      * 生成SPF实例
-     * @param $options
+     * @param $appPath
+     * @param $globalPath
      * @return SPF
      */
-    public static function create($options)
+    public static function create($appPath)
     {
         if (!self::$instance) {
-            self::$instance = new SPF($options);
+            self::$instance = new SPF($appPath);
         }
         return self::$instance;
     }
@@ -55,7 +62,7 @@ final class SPF
     {
         $this->router = new SPF_Controller_Router();
         $this->router->setMapping($this->getConfig('mappings', 'route', []));
-        $this->router->setControllerPath($this->options['appPath'] . DIRECTORY_SEPARATOR . 'controller');
+        $this->router->setControllerPath($this->appPath . DIRECTORY_SEPARATOR . 'controller');
         $this->router->parse();
 
         //执行拦截器before
@@ -128,38 +135,11 @@ final class SPF
 
     /**
      * 获取Router
-     * @return mixed
+     * @return SPF_Controller_Router
      */
     public function getRouter()
     {
         return $this->router;
-    }
-
-    /**
-     * 获取Group
-     * @return mixed
-     */
-    public function getGroup()
-    {
-        return $this->router->getGroup();
-    }
-
-    /**
-     * 获取Controller
-     * @return mixed
-     */
-    public function getController()
-    {
-        return $this->router->getController();
-    }
-
-    /**
-     * 获取Action
-     * @return mixed
-     */
-    public function getAction()
-    {
-        return $this->router->getAction();
     }
 
     /**
@@ -184,7 +164,11 @@ final class SPF
     public function getConfig($name, $file = 'common', $default = null)
     {
         if (!isset($this->components['config'])) {
-            $this->components['config'] = new SPF_Config($this->options['configPath']);
+            $paths = [
+                $this->appPath . '/config',
+                dirname($this->appPath) . '/global/config',
+            ];
+            $this->components['config'] = new SPF_Config($paths);
         }
         return $this->components['config']->get($name, $file, $default);
     }
@@ -234,11 +218,12 @@ final class SPF
     public function registerAutoloader()
     {
         $autoloader = new SPF_Autoloader(
-            $this->options['appPath'],
-            $this->options['loadPath']['kernel'],
-            $this->options['loadPath']['classes']
+            $this->appPath, [
+                dirname($this->appPath) . '/global/classes',
+                $this->appPath . '/classes',
+            ]
         );
-        spl_autoload_register(array($autoloader, 'loadClass'));
+        spl_autoload_register(array($autoloader, 'load'));
     }
 }
 

@@ -11,6 +11,11 @@ class Kernel_Game_Model_UserModel extends SPF_Db_BaseModel
 
     protected $tableName = 'user';
 
+    public static function say()
+    {
+        echo 'say hello';
+    }
+
     public function findByGroup($group)
     {
         $where = [

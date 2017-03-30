@@ -8,4 +8,9 @@
 class Shop_Product
 {
     public $name = 'apple';
+
+    public static function getSay()
+    {
+        echo 'get say';
+    }
 }

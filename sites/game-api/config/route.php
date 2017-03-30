@@ -5,7 +5,7 @@
  */
 return [
     'mappings' => [
-        'Mobile_V1_Test::show' => [
+        'Mobile_V1_Test@show' => [
             '^dem(o)$',
         ],
     ]

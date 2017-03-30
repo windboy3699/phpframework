@@ -30,10 +30,10 @@ abstract class AbstractController extends SPF_Controller
     protected function render($tpl = '')
     {
         if (!$tpl) {
-            $group = $this->spf->getGroup();
+            $group = $this->spf->getRouter()->getGroup();
             $tpl = $group ? strtolower($group) . '/' : '';
-            $tpl .= strtolower($this->spf->getController()) . '/';
-            $tpl .= $this->spf->getAction() . '.html';
+            $tpl .= strtolower($this->spf->getRouter()->getController()) . '/';
+            $tpl .= $this->spf->getRouter()->getAction() . '.html';
         }
         echo $this->getView()->render($tpl, $this->out);
     }
