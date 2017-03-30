@@ -67,7 +67,7 @@ final class SPF
 
         //执行拦截器before
         $interceptors = [];
-        $interceptoreClasses = $this->getInterceptorClasses($this->router->getControllerNameNoSuffix());
+        $interceptoreClasses = $this->getInterceptorClasses($this->router->getControllerNameNoSuffix(), $this->router->getAction());
         $step = SPF_Interceptor::STEP_CONTINUE;
         foreach ($interceptoreClasses as $interceptorClass) {
             if (!class_exists($interceptorClass, true)) {
@@ -105,14 +105,14 @@ final class SPF
      * @param $controller
      * @return array
      */
-    private function getInterceptorClasses($controller)
+    private function getInterceptorClasses($controller, $action)
     {
         $finalClasses = [];
         $globalClasses = $this->getConfig("global", "interceptor", []);
         if ($globalClasses && !is_array($globalClasses)) {
             $globalClasses = [$globalClasses];
         }
-        $classes = $this->getConfig($controller, "interceptor", []);
+        $classes = $this->getConfig($controller . SPF_Controller_Router::ACTION_SEPARATE . $action, "interceptor", []);
         if (!$classes) {
             $classes = $this->getConfig("default", "interceptor", []);
         }

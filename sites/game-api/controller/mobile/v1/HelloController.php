@@ -7,6 +7,11 @@
  */
 class Mobile_V1_HelloController extends AbstractController
 {
+    public function viewAction()
+    {
+        echo 'view';
+    }
+    
     public function showAction()
     {
         //test autoload
