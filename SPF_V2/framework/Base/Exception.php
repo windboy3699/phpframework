@@ -2,7 +2,7 @@
 /**
  * 框架异常类
  *
- * @package SPF\Base
+ * @package SPF.Base
  * @author  XiaodongPan
  * @version $Id: Exception.php 2017-04-12 $
  */

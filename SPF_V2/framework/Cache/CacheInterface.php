@@ -2,7 +2,7 @@
 /**
  * Cache Interface
  *
- * @package SPF\Cache
+ * @package SPF.Cache
  * @author  XiaodongPan
  * @version $Id: CacheInterface.php 2017-04-12 $
  */

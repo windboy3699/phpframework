@@ -2,7 +2,7 @@
 /**
  * Redis连接器
  *
- * @package SPF\Cache
+ * @package SPF.Cache
  * @author  XiaodongPan
  * @version $Id: RedisConnector.php 2017-04-12 $
  */

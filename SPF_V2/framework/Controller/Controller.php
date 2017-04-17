@@ -2,7 +2,7 @@
 /**
  * 控制器抽象类
  *
- * @package SPF\Controller
+ * @package SPF.Controller
  * @author XiaodongPan
  * @version $Id Controller.php 2017-04-12$
  */

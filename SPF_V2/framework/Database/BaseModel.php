@@ -2,7 +2,7 @@
 /**
  * Base Model
  *
- * @package SPF\Database
+ * @package SPF.Database
  * @author  XiaodongPan
  * @version $Id: BaseModel.php 2017-04-12 $
  */

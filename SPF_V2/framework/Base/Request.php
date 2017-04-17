@@ -2,7 +2,7 @@
 /**
  * Request
  *
- * @package SPF\Base
+ * @package SPF.Base
  * @author  XiaodongPan
  * @version $Id: Request.php 2017-04-12 $
  */

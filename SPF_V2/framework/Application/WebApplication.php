@@ -2,7 +2,7 @@
 /**
  * WebApplication
  * 框架主文件，并且提供常用的config、db、cache等核心组件
- * @package SPF
+ * @package SPF.Application
  * @author  XiaodongPan
  * @version $Id: WebApplication.php 2017-04-12 $
  */

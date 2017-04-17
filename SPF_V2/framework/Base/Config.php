@@ -2,7 +2,7 @@
 /**
  * 配置读取类
  *
- * @package SPF\Base
+ * @package SPF.Base
  * @author  XiaodongPan
  * @version $Id: Config.php 2017-04-12 $
  */

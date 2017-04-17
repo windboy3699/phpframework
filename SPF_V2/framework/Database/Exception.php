@@ -2,7 +2,7 @@
 /**
  * Database Exception
  *
- * @package SPF\Database
+ * @package SPF.Database
  * @author  XiaodongPan
  * @version $Id: Exception.php 2017-04-12 $
  */

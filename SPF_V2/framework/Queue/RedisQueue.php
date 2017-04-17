@@ -2,7 +2,7 @@
 /**
  * Redis Queue
  *
- * @package SPF\Queue
+ * @package SPF.Queue
  * @author  XiaodongPan
  * @version $Id: Redis.php 2017-04-12 $
  */

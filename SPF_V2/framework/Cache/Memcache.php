@@ -2,7 +2,7 @@
 /**
  * Memcache
  *
- * @package SPF\Cache
+ * @package SPF.Cache
  * @author  XiaodongPan
  * @version $Id: Memcache.php 2017-04-12 $
  */

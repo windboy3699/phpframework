@@ -2,7 +2,7 @@
 /**
  * Queue Interface
  *
- * @package SPF\Queue
+ * @package SPF.Queue
  * @author  XiaodongPan
  * @version $Id: QueueInterface.php 2017-04-12 $
  */

@@ -2,7 +2,7 @@
 /**
  * Db
  *
- * @package SPF\Database
+ * @package SPF.Database
  * @author  XiaodongPan
  * @version $Id: Db.php 2017-04-12 $
  */

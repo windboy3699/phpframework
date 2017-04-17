@@ -2,7 +2,7 @@
 /**
  * Session Exception
  *
- * @package SPF\Session
+ * @package SPF.Session
  * @author  XiaodongPan
  * @version $Id: Exception.php 2017-04-12 $
  */

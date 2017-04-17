@@ -2,7 +2,7 @@
 /**
  * Do Http Request
  *
- * @package SPF\Base
+ * @package SPF.Base
  * @author  XiaodongPan
  * @version $Id: Curl.php 2017-04-12 $
  */

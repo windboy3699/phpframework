@@ -2,7 +2,7 @@
 /**
  * Memcache Handler
  *
- * @package SPF\Session\Handler
+ * @package SPF.Session.Handler
  * @author  XiaodongPan
  * @version $Id: MemcacheHandler.php 2017-04-12 $
  */

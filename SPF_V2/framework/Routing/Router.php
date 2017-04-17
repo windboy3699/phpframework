@@ -1,7 +1,7 @@
 <?php
 /**
  * Created by PhpStorm.
- * @package \SPF\Routing
+ * @package SPF.Routing
  * @author  XiaodongPan
  * @version $Id: Router.php 2017-04-12 $
  */

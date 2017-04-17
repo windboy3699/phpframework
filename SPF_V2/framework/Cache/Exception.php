@@ -2,7 +2,7 @@
 /**
  * Cache Exception
  *
- * @package SPF\Cache
+ * @package SPF.Cache
  * @author  XiaodongPan
  * @version $Id: Exception.php 2017-04-12 $
  */

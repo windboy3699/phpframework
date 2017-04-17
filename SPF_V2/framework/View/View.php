@@ -2,7 +2,7 @@
 /**
  * View
  *
- * @package SPF\View
+ * @package SPF.View
  * @author  XiaodongPan
  * @version $Id: View.php 2017-04-12 $
  */

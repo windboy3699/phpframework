@@ -2,7 +2,7 @@
 /**
  * Session
  *
- * @package SPF\Session
+ * @package SPF.Session
  * @author  XiaodongPan
  * @version $Id: Session.php 2017-04-12 $
  */

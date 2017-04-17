@@ -2,7 +2,7 @@
 /**
  * Redis
  *
- * @package SPF\Cache
+ * @package SPF.Cache
  * @author  XiaodongPan
  * @version $Id: Redis.php 2017-04-12 $
  */
