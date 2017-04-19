@@ -9,8 +9,7 @@
 namespace SPF\View;
 
 require_once dirname(dirname(dirname(__FILE__))) . '/lib/Twig/Autoloader.php';
-Twig_Autoloader::register();
-
+\Twig_Autoloader::register();
 
 class View
 {

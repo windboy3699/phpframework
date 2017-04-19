@@ -1,60 +1,55 @@
 <?php
 /**
- * WebApplication
  * 框架主文件，并且提供常用的config、db、cache等核心组件
+ *
  * @package SPF.Application
  * @author  XiaodongPan
  * @version $Id: WebApplication.php 2017-04-12 $
  */
 namespace SPF\Application;
 
+use SPF\Base\Config;
+use SPF\Routing\MapRouter;
+use SPF\Base\Request;
+use SPF\Base\Interceptor;
+
 class WebApplication
 {
-    private static $instance;
-
     /**
-     * @var SPF_Controller_Router
+     * @var \SPF\Routing\Router
      */
     private $router;
 
     /**
-     * @var SPF_Request
+     * @var \SPF\Base\Request
      */
     private $request;
 
+    /**
+     * @var string
+     */
     private $appPath;
 
-    private $components = array();
+    /**
+     * @var array
+     */
+    private $loadConfigPaths;
 
-    private function __construct($appPath)
+    /**
+     * @var array
+     */
+    private $components = [];
+
+    /**
+     * WebApplication constructor.
+     *
+     * @param $appPath
+     * @param $loadConfigPaths
+     */
+    public function __construct($appPath, $loadConfigPaths)
     {
         $this->appPath = $appPath;
-    }
-
-    /**
-     * 生成SPF实例
-     * @param $appPath
-     * @param $globalPath
-     * @return SPF
-     */
-    public static function create($appPath)
-    {
-        if (!self::$instance) {
-            self::$instance = new SPF($appPath);
-        }
-        return self::$instance;
-    }
-
-    /**
-     * 获取SPF实例
-     * @return SPF
-     */
-    public static function getInstance()
-    {
-        if (!self::$instance) {
-            throw new SPF_Exception('SPF Instance Not Create');
-        }
-        return self::$instance;
+        $this->loadConfigPaths = $loadConfigPaths;
     }
 
     /**
@@ -62,15 +57,14 @@ class WebApplication
      */
     public function run()
     {
-        $this->router = new SPF_Controller_Router();
-        $this->router->setMapping($this->getConfig('mappings', 'route', []));
-        $this->router->setControllerPath($this->appPath . DIRECTORY_SEPARATOR . 'controller');
-        $this->router->parse();
+        $this->router = new MapRouter();
+        $this->router->setMappings($this->getConfig('mappings', 'route', []));
+        $this->router->mapping();
 
         //执行拦截器before
         $interceptors = [];
-        $interceptoreClasses = $this->getInterceptorClasses($this->router->getControllerNameNoSuffix(), $this->router->getAction());
-        $step = SPF_Interceptor::STEP_CONTINUE;
+        $interceptoreClasses = $this->getInterceptorClasses($this->router->getController(), $this->router->getAction());
+        $step = Interceptor::STEP_CONTINUE;
         foreach ($interceptoreClasses as $interceptorClass) {
             if (!class_exists($interceptorClass, true)) {
                 continue;
@@ -78,23 +72,23 @@ class WebApplication
             $interceptor = new $interceptorClass;
             $interceptors[] = $interceptor;
             $step = $interceptor->before();
-            if ($step != SPF_Interceptor::STEP_CONTINUE) {
+            if ($step != Interceptor::STEP_CONTINUE) {
                 break;
             }
         }
         //执行主流程
-        if ($step != SPF_Interceptor::STEP_EXIT) {
-            $controllerName = $this->router->getControllerName();
-            $actionName = $this->router->getActionName();
-            $controller = new $controllerName;
-            $controller->$actionName();
+        if ($step != Interceptor::STEP_EXIT) {
+            $className = $this->router->getController();
+            $methodName = $this->router->getAction();
+            $controller = new $className;
+            $controller->$methodName();
         }
         //执行拦截器after
         if ($interceptors) {
             $interceptors = array_reverse($interceptors);
             foreach ($interceptors as $interceptor) {
                 $step = $interceptor->after();
-                if ($step != SPF_Interceptor::STEP_CONTINUE) {
+                if ($step != Interceptor::STEP_CONTINUE) {
                     break;
                 }
             }
@@ -104,6 +98,7 @@ class WebApplication
 
     /**
      * 根据controller获取拦截器
+     *
      * @param $controller
      * @return array
      */
@@ -114,7 +109,8 @@ class WebApplication
         if ($globalClasses && !is_array($globalClasses)) {
             $globalClasses = [$globalClasses];
         }
-        $classes = $this->getConfig($controller . SPF_Controller_Router::ACTION_SEPARATE . $action, "interceptor", []);
+        $key = $action == MapRouter::DEFAULT_ACTION ? $controller : $controller . "@" . $action;
+        $classes = $this->getConfig($key, "interceptor", []);
         if (!$classes) {
             $classes = $this->getConfig("default", "interceptor", []);
         }
@@ -137,6 +133,7 @@ class WebApplication
 
     /**
      * 获取Router
+     *
      * @return SPF_Controller_Router
      */
     public function getRouter()
@@ -146,18 +143,20 @@ class WebApplication
 
     /**
      * 获取Request对象
+     *
      * @return SPF_Request
      */
     public function getRequest()
     {
         if (!$this->request) {
-            $this->request = new SPF_Request();
+            $this->request = new Request();
         }
         return $this->request;
     }
 
     /**
      * 获取配置
+     *
      * @param $name
      * @param string $file
      * @param null $default
@@ -166,17 +165,14 @@ class WebApplication
     public function getConfig($name, $file = 'common', $default = null)
     {
         if (!isset($this->components['config'])) {
-            $paths = [
-                $this->appPath . '/config',
-                dirname($this->appPath) . '/global/config',
-            ];
-            $this->components['config'] = new SPF_Config($paths);
+            $this->components['config'] = new Config($this->loadConfigPaths);
         }
         return $this->components['config']->get($name, $file, $default);
     }
 
     /**
      * 获取Db实例
+     *
      * @param $dbname
      * @param bool|false $alwaysMaster
      * @return mixed
@@ -190,6 +186,7 @@ class WebApplication
 
     /**
      * 获取Memcache实例
+     *
      * @return mixed
      * @throws SPF_Exception
      */
@@ -203,6 +200,7 @@ class WebApplication
 
     /**
      * 获取Redis实例
+     *
      * @return mixed
      * @throws SPF_Exception
      */
@@ -213,20 +211,4 @@ class WebApplication
         }
         return $this->components['redis'];
     }
-
-    /**
-     * 注册自动加载
-     */
-    public function registerAutoloader()
-    {
-        $autoloader = new SPF_Autoloader(
-            $this->appPath, [
-                dirname($this->appPath) . '/global/classes',
-                $this->appPath . '/classes',
-            ]
-        );
-        spl_autoload_register(array($autoloader, 'load'));
-    }
 }
-
-require_once dirname(__FILE__) . '/Base/Autoloader.php';
