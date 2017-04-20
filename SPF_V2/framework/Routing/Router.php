@@ -13,12 +13,47 @@ abstract class Router
     /**
      * @var string
      */
+    protected $controller;
+
+    /**
+     * @var string
+     */
+    protected $action;
+
+    /**
+     * @var string
+     */
     protected $path = '';
 
     /**
      * @var string
      */
     protected $errorRedirect = '';
+
+    /**
+     * @return mixed
+     */
+    abstract public function parse();
+
+    /**
+     * 获取Controller
+     *
+     * @return mixed
+     */
+    public function getController()
+    {
+        return $this->controller;
+    }
+
+    /**
+     * 获取Action
+     *
+     * @return string
+     */
+    public function getAction()
+    {
+        return $this->action;
+    }
 
     /**
      * 获取Url路径

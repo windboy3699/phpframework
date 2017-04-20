@@ -16,4 +16,14 @@ class HelloController extends Controller
     {
         $this->render('test.html');
     }
+
+    public function indexAction()
+    {
+        echo 'hello index';
+    }
+
+    public function worldAction()
+    {
+        echo 'vi world';
+    }
 }

@@ -27,11 +27,13 @@ $autoloadPsr4 = [
     'App\\' => [APP_PATH . '/classes'],
 ];
 
-$loadConfigPaths = [
+$configPaths = [
     APP_PATH . '/config',
     SITES_PATH . '/shop-core/config',
     SITES_PATH . '/game-core/config',
 ];
 
 SPF::registerAutoloader($autoloadPsr4);
-SPF::createWebApplication(APP_PATH, $loadConfigPaths)->run();
+$app = SPF::createWebApplication();
+$app->setConfigPaths($configPaths);
+$app->run();

@@ -28,32 +28,7 @@ class MapRouter extends Router
     /**
      * @var string
      */
-    private $controller;
-
-    /**
-     * @var string
-     */
-    private $action = self::DEFAULT_ACTION;
-
-    /**
-     * 获取Controller
-     *
-     * @return mixed
-     */
-    public function getController()
-    {
-        return $this->controller;
-    }
-
-    /**
-     * 获取Action
-     *
-     * @return string
-     */
-    public function getAction()
-    {
-        return $this->action;
-    }
+    protected $action = self::DEFAULT_ACTION;
 
     /**
      * set mappings
@@ -70,7 +45,7 @@ class MapRouter extends Router
      *
      * @return bool
      */
-    public function mapping()
+    public function parse()
     {
         $path = $this->getPath();
         foreach ($this->mappings as $className => $patterns) {

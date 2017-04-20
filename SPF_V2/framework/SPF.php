@@ -1,6 +1,6 @@
 <?php
 /**
- * Created by PhpStorm.
+ * SPF
  *
  * @package
  * @author  XiaodongPan
@@ -16,14 +16,15 @@ class SPF
 
     /**
      * 生成SPF实例
+     *
      * @param $appPath
      * @param $globalPath
      * @return SPF
      */
-    public static function createWebApplication($appPath, $loadConfigPaths)
+    public static function createWebApplication()
     {
         if (!self::$app) {
-            self::$app = new WebApplication($appPath, $loadConfigPaths);
+            self::$app = new WebApplication();
         }
         return self::$app;
     }

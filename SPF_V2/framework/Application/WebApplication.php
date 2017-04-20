@@ -12,6 +12,10 @@ use SPF\Base\Config;
 use SPF\Routing\MapRouter;
 use SPF\Base\Request;
 use SPF\Base\Interceptor;
+use SPF\Routing\RuleRouter;
+use SPF\Database\Db;
+use SPF\Cache\Memcache;
+use SPF\Cache\Redis;
 
 class WebApplication
 {
@@ -26,14 +30,14 @@ class WebApplication
     private $request;
 
     /**
-     * @var string
-     */
-    private $appPath;
-
-    /**
      * @var array
      */
-    private $loadConfigPaths;
+    private $configPaths = [];
+
+    /**
+     * @var string value:map|rule
+     */
+    private $routeMode = 'map';
 
     /**
      * @var array
@@ -41,15 +45,23 @@ class WebApplication
     private $components = [];
 
     /**
-     * WebApplication constructor.
+     * 设置路由模式
      *
-     * @param $appPath
-     * @param $loadConfigPaths
+     * @param $mode
      */
-    public function __construct($appPath, $loadConfigPaths)
+    public function setRouteMode($mode = 'map')
     {
-        $this->appPath = $appPath;
-        $this->loadConfigPaths = $loadConfigPaths;
+        $this->routeMode = $mode == 'map' ? 'map' : 'rule';
+    }
+
+    /**
+     * 设置配置文件路径
+     *
+     * @param $paths
+     */
+    public function setConfigPaths(array $paths)
+    {
+        $this->configPaths = $paths;
     }
 
     /**
@@ -57,13 +69,9 @@ class WebApplication
      */
     public function run()
     {
-        $this->router = new MapRouter();
-        $this->router->setMappings($this->getConfig('mappings', 'route', []));
-        $this->router->mapping();
-
         //执行拦截器before
         $interceptors = [];
-        $interceptoreClasses = $this->getInterceptorClasses($this->router->getController(), $this->router->getAction());
+        $interceptoreClasses = $this->getInterceptorClasses($this->getRouter()->getController(), $this->getRouter()->getAction());
         $step = Interceptor::STEP_CONTINUE;
         foreach ($interceptoreClasses as $interceptorClass) {
             if (!class_exists($interceptorClass, true)) {
@@ -78,8 +86,8 @@ class WebApplication
         }
         //执行主流程
         if ($step != Interceptor::STEP_EXIT) {
-            $className = $this->router->getController();
-            $methodName = $this->router->getAction();
+            $className = $this->getRouter()->getController();
+            $methodName = $this->getRouter()->getAction();
             $controller = new $className;
             $controller->$methodName();
         }
@@ -133,18 +141,27 @@ class WebApplication
 
     /**
      * 获取Router
-     *
-     * @return SPF_Controller_Router
      */
     public function getRouter()
     {
+        if (!empty($this->router)) {
+            return $this->router;
+        }
+        if ($this->routeMode == 'map') {
+            $this->router = new MapRouter();
+            $this->router->setMappings($this->getConfig('mappings', 'route', []));
+            $this->router->parse();
+        } elseif ($this->routeMode == 'rule') {
+            $this->router = new RuleRouter();
+            $this->router->parse();
+        }
         return $this->router;
     }
 
     /**
      * 获取Request对象
      *
-     * @return SPF_Request
+     * @return \SPF\Base\Request
      */
     public function getRequest()
     {
@@ -165,7 +182,7 @@ class WebApplication
     public function getConfig($name, $file = 'common', $default = null)
     {
         if (!isset($this->components['config'])) {
-            $this->components['config'] = new Config($this->loadConfigPaths);
+            $this->components['config'] = new Config($this->configPaths);
         }
         return $this->components['config']->get($name, $file, $default);
     }
@@ -181,19 +198,19 @@ class WebApplication
     public function getDb($dbname, $alwaysMaster = false)
     {
         $config = $this->getConfig('db_' . $dbname, 'server');
-        return SPF_Db::getInstance($config, $alwaysMaster);
+        return Db::getInstance($config, $alwaysMaster);
     }
 
     /**
      * 获取Memcache实例
      *
      * @return mixed
-     * @throws SPF_Exception
+     * @throws \SPF\Cache\Exception
      */
     public function getMemcache()
     {
         if (!isset($this->components['memcache'])) {
-            $this->components['memcache'] = new SPF_Cache_Memcache($this->getConfig('memcache', 'server'));
+            $this->components['memcache'] = new Memcache($this->getConfig('memcache', 'server'));
         }
         return $this->components['memcache'];
     }
@@ -202,12 +219,12 @@ class WebApplication
      * 获取Redis实例
      *
      * @return mixed
-     * @throws SPF_Exception
+     * @throws \SPF\Cache\Exception
      */
     public function getRedis()
     {
         if (!isset($this->components['redis'])) {
-            $this->components['redis'] = new SPF_Cache_Redis($this->getConfig('redis', 'server'));
+            $this->components['redis'] = new Redis($this->getConfig('redis', 'server'));
         }
         return $this->components['redis'];
     }

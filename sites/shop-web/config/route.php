@@ -9,6 +9,8 @@
 
 return [
     'mappings' => [
+        'App\\Controller\\IndexController' => ['^$'],
         'App\\Controller\\Mobile\\V1\\HelloController' => ['^dem(o)$'],
+
     ]
 ];
