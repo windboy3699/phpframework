@@ -7,6 +7,7 @@
  * @version $Id: SPF.php 2017-04-17 $
  */
 use SPF\Application\WebApplication;
+use SPF\Application\CliApplication;
 
 class SPF
 {
@@ -22,6 +23,14 @@ class SPF
     {
         if (!self::$app) {
             self::$app = new WebApplication();
+        }
+        return self::$app;
+    }
+
+    public static function createCliApplication()
+    {
+        if (!self::$app) {
+            self::$app = new CliApplication();
         }
         return self::$app;
     }
