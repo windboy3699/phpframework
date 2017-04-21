@@ -15,11 +15,8 @@ class SPF
     private static $autoloadPsr4 = [];
 
     /**
-     * 生成SPF实例
-     *
-     * @param $appPath
-     * @param $globalPath
-     * @return SPF
+     * 生成App实例
+     * @return WebApplication
      */
     public static function createWebApplication()
     {
@@ -59,7 +56,7 @@ class SPF
     public static function autoload($className)
     {
         $className = ltrim($className, '\\');
-        $psr4 = array_merge(['SPF' => [dirname(__FILE__)]], self::$autoloadPsr4);
+        $psr4 = array_merge(self::baseAutoloadPsr4(), self::$autoloadPsr4);
         foreach ($psr4 as $namespacePrefix => $paths) {
             $pattern = '/^' . addslashes($namespacePrefix) . '/';
             if (preg_match($pattern, $className)) {
@@ -87,6 +84,15 @@ class SPF
             }
         }
         return false;
+    }
+
+    public static function baseAutoloadPsr4()
+    {
+        return [
+            'SPF' => [dirname(__FILE__)],
+            'Monolog\\' => [SPF_PATH . '/lib/Monolog'],
+            'Psr\\Log\\' => [SPF_PATH . '/lib/Psr/Log'],
+        ];
     }
 }
 

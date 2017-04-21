@@ -49,7 +49,7 @@ class WebApplication
      *
      * @param $mode
      */
-    public function setRouteMode($mode = 'map')
+    public function setRouteMode($mode)
     {
         $this->routeMode = $mode == 'map' ? 'map' : 'rule';
     }

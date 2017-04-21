@@ -42,6 +42,12 @@ abstract class Controller
     }
 
     /**
+     * 执行请求
+     * @return mixed
+     */
+    abstract public function handleRequest();
+
+    /**
      * 获取模板引擎
      *
      * @return Twig_Environment

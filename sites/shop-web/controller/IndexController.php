@@ -8,10 +8,20 @@
  */
 namespace App\Controller;
 
-class IndexController
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
+
+class IndexController extends Controller
 {
     public function handleRequest()
     {
-        echo 'hello home back';
+
+        $log = new Logger('name');
+        $log->pushHandler(new StreamHandler('test.log', Logger::WARNING));
+
+        $log->addWarning('Foo');
+        $log->addError('Bar');
+
+        $this->showResult(0, 'ok');
     }
 }
