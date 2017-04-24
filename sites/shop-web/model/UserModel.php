@@ -1,7 +1,8 @@
 <?php
 /**
  * Created by PhpStorm.
- * @package /
+ *
+ * @package
  * @author  XiaodongPan
- * @version $Id: AuthService.php 2017-03-16 $
+ * @version $Id: UserModel.php 2017-04-24 $
  */

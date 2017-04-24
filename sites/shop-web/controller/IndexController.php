@@ -16,11 +16,11 @@ class IndexController extends Controller
     public function handleRequest()
     {
 
-        $log = new Logger('name');
+        /*$log = new Logger('name');
         $log->pushHandler(new StreamHandler('test.log', Logger::WARNING));
 
         $log->addWarning('Foo');
-        $log->addError('Bar');
+        $log->addError('Bar');*/
 
         $this->showResult(0, 'ok');
     }
