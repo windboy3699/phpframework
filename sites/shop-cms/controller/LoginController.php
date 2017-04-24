@@ -4,14 +4,14 @@
  *
  * @package
  * @author  XiaodongPan
- * @version $Id: IndexController.php 2017-04-24 $
+ * @version $Id: LoginController.php 2017-04-24 $
  */
 namespace App\Controller;
 
-class IndexController extends Controller
+class LoginController extends Controller
 {
     public function indexAction()
     {
-        $this->render('table.html');
+        $this->render('login.html');
     }
 }
