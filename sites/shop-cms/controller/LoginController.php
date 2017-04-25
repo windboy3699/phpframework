@@ -14,4 +14,25 @@ class LoginController extends Controller
     {
         $this->render('login.html');
     }
+
+    public function checkAction()
+    {
+        $username = $this->request->getParam('username', '');
+        $password = $this->request->getParam('password', '');
+
+        $where = [
+            'AND' => [
+                'username' => $username,
+                'password' => md5($password),
+            ]
+        ];
+
+        $user = $this->getDb()->select('admin_user', '*', $where);
+
+        if (empty($user)) {
+            $this->jump('', '用户名或密码错误');
+        } else {
+            $this->jump('/');
+        }
+    }
 }

@@ -41,6 +41,11 @@ abstract class Controller
         $this->request = $this->app->getRequest();
     }
 
+    public function getDb($dbname = 'cms', $alwaysMaster = true)
+    {
+        return $this->app->getDb($dbname, $alwaysMaster);
+    }
+
     /**
      * 获取模板引擎
      *

@@ -8,6 +8,9 @@
  */
 namespace SPF\Database;
 
+use PDO;
+use Medoo;
+
 require_once dirname(dirname(dirname(__FILE__))) . '/lib/Medoo/Medoo.php';
 
 class Db
@@ -65,7 +68,7 @@ class Db
         $dbname = $config['master']['database_name'];
         $key = $alwaysMaster ? $dbname . '1' : $dbname . '0';
         if (!isset($dbs[$key])) {
-            self::$dbs[$key] = new SPF_Db($config, $alwaysMaster);
+            self::$dbs[$key] = new Db($config, $alwaysMaster);
         }
         return self::$dbs[$key];
     }
