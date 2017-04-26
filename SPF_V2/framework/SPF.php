@@ -17,6 +17,7 @@ class SPF
 
     /**
      * 生成App实例
+     *
      * @return WebApplication
      */
     public static function createWebApplication()
