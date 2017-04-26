@@ -14,7 +14,7 @@ class RedisConnector
 
     public function __construct($config)
     {
-        $this->redis = new Redis;
+        $this->redis = new \Redis;
         if ($config['persistent'] == true) {
             //不会主动关闭的链接
             $this->redis->pconnect($config['host'], $config['port'], $config['timeout']);

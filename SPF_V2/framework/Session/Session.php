@@ -8,23 +8,37 @@
  */
 namespace SPF\Session;
 
+use SPF\Cache\CacheInterface;
+
 class Session
 {
-    //可配置的参数
+    /**
+     * 可配置的参数
+     *
+     * @var array
+     */
     private static $validOptions = array(
         'save_path', 'name', 'save_handler', 'gc_probability', 'gc_divisor', 'gc_maxlifetime', 'serialize_handler',
         'cookie_lifetime', 'cookie_path', 'cookie_domain', 'cookie_secure', 'cookie_httponly', 'use_cookies',
         'use_only_cookies', 'referer_check', 'entropy_file', 'entropy_length', 'cache_limiter', 'cache_expire', 'use_trans_sid'
     );
 
-    //是否已启动
+    /**
+     * 是否已启动
+     *
+     * @var bool
+     */
     protected static $started = false;
 
     /**
-     * 开启
+     * 启动Session
+     *
      * @param array $options
+     * @param string $handlerType redis|memcache
+     * @param CacheInterface $storge
+     * @throws Exception
      */
-    public static function start(array $options = array(), $handler = '', $instance = null)
+    public static function start(array $options = array(), $handlerType = '', CacheInterface $storge = null)
     {
         if (self::$started) {
             return ;
@@ -32,14 +46,15 @@ class Session
         if (!empty($options)) {
             self::setOptions($options);
         }
-        if ($handler) {
-            self::setSaveHandler($handler, $instance);
+        if ($handlerType) {
+            self::setSaveHandler($handlerType, $storge);
         }
         self::$started = session_start();
     }
 
     /**
      * 配置设置
+     *
      * @param array $options
      */
     public static function setOptions(array $options)
@@ -53,19 +68,15 @@ class Session
     }
 
     /**
-     * 设置session save handler
-     * @param Session_SaveHandlerInterface|string $handler
+     * 设置Handler
+     *
+     * @param $handlerType
+     * @param CacheInterface $storge
      */
-    public static function setSaveHandler($handler, $instance = null)
+    public static function setSaveHandler($handlerType, CacheInterface $storge)
     {
-        if (!$handler instanceof Handler\Factory) {
-            if (is_string($handler)) {
-                $className = 'SPF_Session_Handler'. ucfirst(strtolower($handler));
-                $handler = new $className($instance);
-            } else {
-                throw new Exception('Save Handler Is Invalid!');
-            }
-        }
+        $className = 'SPF\\Session\\Handler\\' . ucfirst(strtolower($handlerType)) . 'Handler';
+        $handler = new $className($storge);
         session_set_save_handler(
             array(&$handler, 'open'),
             array(&$handler, 'close'),
@@ -78,6 +89,7 @@ class Session
 
     /**
      * 获取session id
+     *
      * @return string
      */
     public static function getId()

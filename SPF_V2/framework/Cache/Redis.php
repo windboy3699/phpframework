@@ -19,7 +19,7 @@ class Redis implements CacheInterface
     private $config = array();
 
     /**
-     * SPF_Redis constructor.
+     * Redis constructor.
      * @param $config
      * <pre>
      * $config = [

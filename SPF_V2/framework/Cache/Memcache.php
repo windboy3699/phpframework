@@ -19,7 +19,7 @@ class Memcache implements CacheInterface
     private $cache = null;
 
     /**
-     * SPF_Memcache constructor.
+     * Memcache constructor.
      * @param $config
      * <pre>
      * $config = [
@@ -48,7 +48,7 @@ class Memcache implements CacheInterface
                 }
             }
         } else {
-            throw new SPF_Exception('MemCache server config not defined');
+            throw new Exception('MemCache server config not defined');
         }
     }
 
@@ -59,9 +59,9 @@ class Memcache implements CacheInterface
         } else {
             $extension = $this->useMemcached ? 'memcached' : 'memcache';
             if (!extension_loaded($extension)) {
-                throw new SPF_Exception("MemCache requires PHP $extension extension to be loaded.");
+                throw new Exception("MemCache requires PHP $extension extension to be loaded.");
             }
-            return $this->cache = $this->useMemcached ? new Memcached : new Memcache;
+            return $this->cache = $this->useMemcached ? new \Memcached : new \Memcache;
         }
     }
 

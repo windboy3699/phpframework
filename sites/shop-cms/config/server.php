@@ -5,7 +5,7 @@ return [
             'server'      => '127.0.0.1',
             'database_name'  => 'cms',
             'username'  => 'root',
-            'password'  => '123456',
+            'password'  => '12345678',
         ],
         'slave' => [
             [
@@ -31,18 +31,25 @@ return [
     'redis' => [
         'keyPrefix' => 'app.api.',
         'master' => [
-            'host' => 'redis.server.com',
-            'port' => 13230,
+            'host' => '127.0.0.1',
+            'port' => 6379,
             'timeout' => 0,
             'persistent' => false,
         ],
         'slave' => [
             [
-                'host' => 'redis.server.com',
-                'port' => 13230,
+                'host' => '127.0.0.1',
+                'port' => 6379,
                 'timeout' => 0,
                 'persistent' => false,
             ]
         ]
-    ]
+    ],
+
+    'session' => [
+        'use_cookies'   => 1,
+        'cookie_path'   => '/',
+        'cookie_domain' => '.shop.com',
+        'gc_maxlifetime'=> 86400,
+    ],
 ];
