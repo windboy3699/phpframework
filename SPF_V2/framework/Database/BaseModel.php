@@ -8,6 +8,9 @@
  */
 namespace SPF\Database;
 
+use SPF;
+use SPF\Database\Db;
+
 abstract class BaseModel
 {
     const DEFAULT_LIMIT = 500;
@@ -74,7 +77,7 @@ abstract class BaseModel
     public function tableName()
     {
         if($this->sharding === true && $this->factor === '') {
-            throw new SPF_Exception('sharding table changeFactor first tableName');
+            throw new Exception('sharding table changeFactor first');
         }
         return $this->tableName;
     }
@@ -89,10 +92,10 @@ abstract class BaseModel
     public function getDb($alwaysMaster = false)
     {
         if($this->sharding === true && $this->factor === '') {
-            throw new SPF_Exception('sharding table changeFactor first tableName');
+            throw new Exception('sharding table changeFactor first');
         }
-        $config = SPF::getInstance()->getConfig('db_'.$this->dbName, 'server');
-        return SPF_Db::getInstance($config, $alwaysMaster);
+        $config = SPF::App()->getConfig('db_'.$this->dbName, 'server');
+        return Db::getInstance($config, $alwaysMaster);
     }
 
     /**

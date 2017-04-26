@@ -8,6 +8,8 @@
  */
 namespace App\Controller;
 
+use App\Model\AdminUserModel;
+
 class LoginController extends Controller
 {
     public function indexAction()
@@ -20,6 +22,8 @@ class LoginController extends Controller
         $username = $this->request->getParam('username', '');
         $password = $this->request->getParam('password', '');
 
+        $model = new AdminUserModel();
+
         $where = [
             'AND' => [
                 'username' => $username,
@@ -27,7 +31,7 @@ class LoginController extends Controller
             ]
         ];
 
-        $user = $this->getDb()->select('admin_user', '*', $where);
+        $user = $model->getDb()->select('admin_user', '*', $where);
 
         if (empty($user)) {
             $this->jump('', '用户名或密码错误');

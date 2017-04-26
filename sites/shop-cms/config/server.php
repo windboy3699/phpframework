@@ -5,14 +5,14 @@ return [
             'server'      => '127.0.0.1',
             'database_name'  => 'cms',
             'username'  => 'root',
-            'password'  => '12345678',
+            'password'  => '123456',
         ],
         'slave' => [
             [
                 'server'      => '127.0.0.1',
                 'database_name'  => 'cms',
                 'username'  => 'root',
-                'password'  => '12345678',
+                'password'  => '123456',
             ]
         ]
     ],
