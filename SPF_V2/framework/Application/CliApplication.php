@@ -1,8 +1,8 @@
 <?php
 /**
- * Created by PhpStorm.
+ * Cli模式
  *
- * @package
+ * @package SPF.Application
  * @author  XiaodongPan
  * @version $Id: CliApplication.php 2017-04-14 $
  */
@@ -57,7 +57,7 @@ class CliApplication
      * @param $dbname
      * @param bool|false $alwaysMaster
      * @return mixed
-     * @throws SPF_Exception
+     * @throws \SPF\Database\Exception
      */
     public function getDb($dbname, $alwaysMaster = false)
     {

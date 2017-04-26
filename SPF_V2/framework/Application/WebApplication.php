@@ -193,7 +193,7 @@ class WebApplication
      * @param $dbname
      * @param bool|false $alwaysMaster
      * @return mixed
-     * @throws SPF_Exception
+     * @throws \SPF\Database\Exception
      */
     public function getDb($dbname, $alwaysMaster = false)
     {

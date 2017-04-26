@@ -39,6 +39,7 @@ class Db
 
     /**
      * 初始传入配置
+     *
      * @param array $config
      * @param bool $alwaysMaster
      */
@@ -58,6 +59,7 @@ class Db
 
     /**
      * 生成db实例
+     *
      * @param $config
      * @param bool|false $alwaysMaster
      * @param bool|false $refresh
@@ -75,7 +77,8 @@ class Db
 
     /**
      * 获取主数据库连接
-     * @return Db_Connection
+     *
+     * @return Medoo
      */
     public function getMaster()
     {
@@ -87,7 +90,8 @@ class Db
 
     /**
      * 获取从数据库连接
-     * @return Db_Connection
+     *
+     * @return Medoo
      */
     public function getSlave()
     {
@@ -102,8 +106,9 @@ class Db
 
     /**
      * 获取数据库连接
+     *
      * @param array $config
-     * @return Db_Connection
+     * @return Medoo
      */
     protected function getMedoo(array $config)
     {
@@ -112,6 +117,7 @@ class Db
 
     /**
      * 查询走Slave
+     *
      * @param $table
      * @param $join
      * @param null $columns
@@ -125,6 +131,7 @@ class Db
 
     /**
      * 获取单行
+     *
      * @param $table
      * @param $join
      * @param null $columns
@@ -140,6 +147,7 @@ class Db
 
     /**
      * 新增或更新
+     *
      * @param $table
      * @param array $bind
      * @param null $where
@@ -156,6 +164,7 @@ class Db
 
     /**
      * 执行Medoo原始方法
+     *
      * @param string $method
      * @param array $args
      * @return mixed

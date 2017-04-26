@@ -1,6 +1,6 @@
 <?php
 /**
- * 公共方法
+ * 全局方法
  *
  * @package SPF.Base
  * @author  XiaodongPan
@@ -63,6 +63,7 @@ class Util
 
     /**
      * BASE32编码
+     *
      * @param string $input     需要编码的字符串
      * @return string           编码后的字符串
      */
@@ -92,6 +93,7 @@ class Util
 
     /**
      * BASE32解码
+     *
      * @param string $input     需要解码的字符串
      * @return string           解码后的字符串
      */

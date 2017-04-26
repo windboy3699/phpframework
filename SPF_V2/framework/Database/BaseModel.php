@@ -69,7 +69,7 @@ abstract class BaseModel
      * 获取table名称
      *
      * @return table名称
-     * @throws SPF_Exception
+     * @throws \SPF\Database\Exception
      */
     public function tableName()
     {
@@ -84,7 +84,7 @@ abstract class BaseModel
      *
      * @param bool|false $alwaysMaster
      * @return mixed
-     * @throws SPF_Exception
+     * @throws \SPF\Database\Exception
      */
     public function getDb($alwaysMaster = false)
     {
@@ -100,7 +100,7 @@ abstract class BaseModel
      *
      * @param $id
      * @return mixed
-     * @throws SPF_Exception
+     * @throws \SPF\Database\Exception
      */
     public function findById($id)
     {
@@ -116,7 +116,7 @@ abstract class BaseModel
      * @param array $ids
      * @param bool|false $idKey key是否转换成主键
      * @return array
-     * @throws SPF_Exception
+     * @throws \SPF\Database\Exception
      */
     public function findByIds(array $ids, $key2id = true)
     {

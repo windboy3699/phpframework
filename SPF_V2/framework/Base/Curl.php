@@ -1,6 +1,6 @@
 <?php
 /**
- * Do Http Request
+ * Curl Http Request
  *
  * @package SPF.Base
  * @author  XiaodongPan
@@ -40,6 +40,7 @@ class Curl
 
     /**
      * 执行Get请求
+     *
      * @param string $url
      *     xxx.com/{foo}/{bar}/?foo1={foo1}
      * @param array $params
@@ -55,6 +56,7 @@ class Curl
 
     /**
      * 执行Post请求
+     *
      * @param $url
      * @param $postParams
      * @param array $getParams
@@ -76,6 +78,7 @@ class Curl
 
     /**
      * 非字符串的body会以json的方式发送到服务器端
+     *
      * @param string $url
      * @param string|array $postParams
      * @param array $getParams
@@ -97,6 +100,7 @@ class Curl
 
     /**
      * 获取执行信息
+     *
      * @return array
      */
     public function getLastInfo()
@@ -106,6 +110,7 @@ class Curl
 
     /**
      * 执行Post
+     *
      * @param $url
      * @param string $postBody
      * @param array $getParams
@@ -124,6 +129,7 @@ class Curl
 
     /**
      * 约定只有返回码是200时，才返回数据，否则返回false
+     *
      * @param string $url
      * @param array $params
      * @param array $headers
@@ -173,6 +179,7 @@ class Curl
 
     /**
      * 设置Header
+     *
      * @param $headers
      */
     private function setHeaders($headers)
@@ -190,6 +197,7 @@ class Curl
 
     /**
      * 设置参数
+     *
      * @param $attribute
      * @param $value
      */
@@ -200,6 +208,7 @@ class Curl
 
     /**
      * 设置超时
+     *
      * @param $timeout
      * @param $connectTimeout
      */
@@ -222,6 +231,7 @@ class Curl
 
     /**
      * 构造url
+     *
      * @param $originUrl
      * @param $pairs
      * @return mixed|string
@@ -263,6 +273,7 @@ class Curl
 
     /**
      * 增加后缀
+     *
      * @param $originUrl
      * @param $urlParams
      * @return string
