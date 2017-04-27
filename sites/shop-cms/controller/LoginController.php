@@ -8,7 +8,7 @@
  */
 namespace App\Controller;
 
-use App\Model\AdminUserModel;
+use App\Model\SystemUserModel;
 
 class LoginController extends Controller
 {
@@ -22,7 +22,7 @@ class LoginController extends Controller
         $username = $this->request->getParam('username', '');
         $password = $this->request->getParam('password', '');
 
-        $model = new AdminUserModel();
+        $model = new SystemUserModel();
 
         $where = [
             'AND' => [
@@ -31,7 +31,7 @@ class LoginController extends Controller
             ]
         ];
 
-        $user = $model->getDb()->select('admin_user', '*', $where);
+        $user = $model->getDb()->select($model->tableName(), '*', $where);
 
         if (empty($user)) {
             $this->jump('', '用户名或密码错误');

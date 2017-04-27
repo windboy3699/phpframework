@@ -1,16 +1,16 @@
 <?php
 return [
-    'db_cms' => [
+    'db_shop' => [
         'master' => [
             'server'      => '127.0.0.1',
-            'database_name'  => 'cms',
+            'database_name'  => 'shop',
             'username'  => 'root',
             'password'  => '123456',
         ],
         'slave' => [
             [
                 'server'      => '127.0.0.1',
-                'database_name'  => 'cms',
+                'database_name'  => 'shop',
                 'username'  => 'root',
                 'password'  => '123456',
             ]
