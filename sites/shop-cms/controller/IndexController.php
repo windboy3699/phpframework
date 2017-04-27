@@ -12,6 +12,6 @@ class IndexController extends Controller
 {
     public function indexAction()
     {
-        $this->render('table.html');
+        $this->render('index.html');
     }
 }
