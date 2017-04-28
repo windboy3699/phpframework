@@ -16,8 +16,6 @@ class SystemUserModel extends BaseModel
 
     protected $tableName = 'system_user';
 
-    protected $pkName = 'id';
-
     public function getUsers($offset = 0, $limit = 20)
     {
         $where = [

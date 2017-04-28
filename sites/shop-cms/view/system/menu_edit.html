@@ -27,40 +27,52 @@
                 </div>
                 <!-- /.box-header -->
                 <!-- form start -->
-                <form class="form-horizontal" action="/system/user/save/" method="post" data-redirect="{{referer}}">
-                    <input type="hidden" name="id" value="{{user.id}}">
+                <form class="form-horizontal" action="/system/menu/save/" method="post" data-redirect="{{referer}}">
+                    <input type="hidden" name="id" value="{{menu.id}}">
+                    <input type="hidden" name="topid" value="{{menu.topid}}">
                     <div class="box-body">
                         <div class="form-group">
-                            <label class="col-sm-2 control-label">用户名</label>
+                            <label class="col-sm-2 control-label">名称</label>
 
                             <div class="col-sm-10">
-                                <input type="text" name="username" value="{{user.username}}" class="form-control" placeholder="">
+                                <input type="text" name="name" value="{{menu.name}}" class="form-control" placeholder="">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-2 control-label">密 码</label>
+                            <label class="col-sm-2 control-label">Path</label>
 
                             <div class="col-sm-10">
-                                <input type="password" name="password" class="form-control" placeholder="">
+                                <input type="text" name="path" value="{{menu.path}}" class="form-control" placeholder="">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-2 control-label">姓名</label>
+                            <label class="col-sm-2 control-label">链接</label>
 
                             <div class="col-sm-10">
-                                <input type="text" name="realname" value="{{user.realname}}" class="form-control" placeholder="">
+                                <input type="text" name="link" value="{{menu.link}}" class="form-control" placeholder="">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-2 control-label">用户组</label>
+                            <label class="col-sm-2 control-label">顺序</label>
+
                             <div class="col-sm-10">
-                                <select name="group_id" class="form-control">
-                                    {% for id,name in groups %}
-                                    <option value="{{id}}">{{name}}</option>
-                                    {% endfor %}
-                                </select>
+                                <input type="text" name="sort" value="{{menu.sort}}" class="form-control" placeholder="">
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">隐藏</label>
+
+                            <div class="col-sm-10">
+                                <label>
+                                    <input type="radio" name="visible" value="1" class="minimal"> 是
+                                </label>&nbsp;&nbsp;
+                                <label>
+                                    <input type="radio" name="visible" value="0" class="minimal"> 否
+                                </label>
+                            </div>
+                        </div>
+
                     </div>
                     <!-- /.box-body -->
                     <div class="box-footer">
@@ -78,12 +90,15 @@
 </section>
 <!-- /.content -->
 {% endblock %}
-
 {% block js %}
 <script type="text/javascript">
     setDefault({
-        dom: $('select[name="group_id"]'),
-        default: '{{user.group_id}}'
+        dom: $('input[name="visible"]'),
+        default: '{{menu.visible}}'
+    });
+    $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
+        checkboxClass: 'icheckbox_minimal-blue',
+        radioClass: 'iradio_minimal-blue'
     });
 </script>
 {% endblock %}
