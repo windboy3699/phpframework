@@ -31,6 +31,7 @@
                             <th>添加人</th>
                             <th>登录时间</th>
                             <th>注册时间</th>
+                            <th>操作</th>
                         </tr>
                         {% for key,item in users %}
                         <tr>
@@ -41,6 +42,10 @@
                             <td>{{item.add_user}}</td>
                             <td>{{item.last_login}}</td>
                             <td>{{item.create_time}}</td>
+                            <td>
+                                <a href="/system/user/edit/?id={{item.id}}">编辑</a>
+                                <a class="J_Do_Get" data-get-url="/system/user/delete/?id={{item.id}}" data-redirect="{{cururl}}">删除</a>
+                            </td>
                         </tr>
                         {% endfor %}
                     </table>

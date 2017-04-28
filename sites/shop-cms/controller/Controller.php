@@ -9,6 +9,7 @@
 namespace App\Controller;
 
 use SPF\View\View;
+use SPF\Base\Util;
 
 abstract class Controller
 {
@@ -62,6 +63,8 @@ abstract class Controller
     public function render($tpl)
     {
         $this->out['static'] = 'http://cms.shop.com/static';
+        $this->out['cururl'] = Util::getCurUrl();
+        $this->out['referer'] = $_SERVER['HTTP_REFERER'];
         echo $this->getView()->render($tpl, $this->out);
     }
 
