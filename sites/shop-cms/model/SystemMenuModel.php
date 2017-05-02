@@ -28,11 +28,21 @@ class SystemMenuModel extends BaseModel
 
     public function getAllMenus()
     {
-        $data = $this->getDb()->select($this->tableName(), '*', [
+        $where = [
             'AND' => [
+                'level' => 1,
                 'visible' => 1,
+            ], 'ORDER' => [
+                'sort' => 'ASC',
+                'id' => 'ASC',
             ]
-        ]);
+        ];
+        $level1 = $this->getDb()->select($this->tableName(), '*', $where);
+        $where['AND']['level'] = 2;
+        $level2 = $this->getDb()->select($this->tableName(), '*', $where);
+        $where['AND']['level'] = 3;
+        $level3 = $this->getDb()->select($this->tableName(), '*', $where);
+        $data = array_merge($level1, $level2, $level3);
         return $data;
     }
 
