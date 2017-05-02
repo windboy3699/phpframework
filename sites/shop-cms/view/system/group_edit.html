@@ -3,7 +3,7 @@
 {% block main %}
 <section class="content-header">
     <h1>
-        用户管理
+        系统管理
         <small>
             <a href="#">Home</a> >
             <a href="#">Tables</a> >
@@ -11,7 +11,7 @@
         </small>
     </h1>
     <div class="breadcrumb">
-        <a href="/system/user/" class="btn btn-sm btn-default btn-flat pull-right">>> 用户列表</a>
+        <a href="/system/user/" class="btn btn-sm btn-default btn-flat pull-right">>> 用户组列表</a>
     </div>
 </section>
 
@@ -23,18 +23,34 @@
             <!-- Horizontal Form -->
             <div class="box box-info">
                 <div class="box-header with-border">
-                    <h3 class="box-title">用户添加</h3>
+                    <h3 class="box-title">用户组添加</h3>
                 </div>
                 <!-- /.box-header -->
                 <!-- form start -->
-                <form class="form-horizontal" action="/system/user/save/" method="post" data-redirect="{{referer}}">
-                    <input type="hidden" name="id" value="{{user.id}}">
+                <form class="form-horizontal" action="/system/group/save/" method="post" data-redirect="{{referer}}">
+                    <input type="hidden" name="id" value="{{group.id}}">
                     <div class="box-body">
                         <div class="form-group">
-                            <label class="col-sm-2 control-label">用户名</label>
+                            <label class="col-sm-2 control-label">组名</label>
 
                             <div class="col-sm-10">
-                                <input type="text" name="username" value="{{user.username}}" class="form-control" placeholder="">
+                                <input type="text" name="name" value="{{group.name}}" class="form-control" placeholder="">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">菜单</label>
+
+                            <div class="col-sm-10">
+                                {% for level1 in levelmenus %}
+                                    <div style="margin-bottom: 7px;">{{level1.menu.name}} {% if level1.menu.link %}<input type="checkbox" name="menus[]" value="{{level1.menu.id}}" {% if level1.menu.id in menus %}checked{% endif %}>{% endif %}</div>
+                                    {% for level2 in level1.submenus %}
+                                        <div style="margin-left: 40px; margin-bottom: 7px;">{{level2.menu.name}} {% if level2.menu.link %}<input type="checkbox" name="menus[]" value="{{level2.menu.id}}" {% if level2.menu.id in menus %}checked{% endif %}>{% endif %}</div>
+                                        {% for level3 in level2.submenus %}
+                                            <div style="margin-left: 80px; margin-bottom: 7px;">{{level3.menu.name}} {% if level3.menu.link %}<input type="checkbox" name="menus[]" value="{{level3.menu.id}}" {% if level3.menu.id in menus %}checked{% endif %}>{% endif %}</div>
+                                        {% endfor %}
+                                    {% endfor %}
+                                {% endfor %}
                             </div>
                         </div>
 
@@ -57,9 +73,5 @@
 {% endblock %}
 {% block js %}
 <script type="text/javascript">
-    setDefault({
-        dom: $('select[name="group_id"]'),
-        default: '{{user.group_id}}'
-    });
 </script>
 {% endblock %}

@@ -83,7 +83,7 @@ class UserController extends Controller
     public function getGroups()
     {
         $model = new SystemGroupModel();
-        $data = $model->getAll();
+        $data = $model->getAllGroups();
         if (empty($data)) {
             return [];
         }

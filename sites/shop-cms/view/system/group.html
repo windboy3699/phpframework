@@ -3,7 +3,7 @@
 {% block main %}
 <section class="content-header">
     <h1>
-        用户管理
+        系统管理
         <small>
             <a href="#">Home</a> >
             <a href="#">Tables</a> >
@@ -34,7 +34,6 @@
                             <td>{{item.name}}</td>
                             <td>
                                 <a href="/system/group/edit/?id={{item.id}}">编辑</a>
-                                <a class="J_Do_Get" data-get-url="/system/group/delete/?id={{item.id}}" data-redirect="{{cururl}}">删除</a>
                             </td>
                         </tr>
                         {% endfor %}

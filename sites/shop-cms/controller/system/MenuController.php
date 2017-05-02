@@ -51,8 +51,6 @@ class MenuController extends Controller
 
     public function saveAction()
     {
-        $model = new SystemMenuModel();
-
         $id = (int)$this->request->getParam('id', 0);
         $topid = (int)$this->request->getParam('topid', 0);
         $name = trim($this->request->getParam('name', ''));
@@ -70,6 +68,7 @@ class MenuController extends Controller
             'visible' => $visible,
             'sort' => $sort,
         ];
+        $model = new SystemMenuModel();
         if (empty($id)) {
             $data['topid'] = $topid;
             $topMenu = $model->findById($topid);

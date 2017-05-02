@@ -16,12 +16,24 @@ class SystemGroupModel extends BaseModel
 
     protected $tableName = 'system_group';
 
-    public function getAll()
+    public function getAllGroups()
     {
         $data = $this->getDb()->select(
             $this->tableName(),
             '*'
         );
         return $data;
+    }
+
+    public function save($data, $pk = 0)
+    {
+        if (!$pk) {
+            $ret = $this->getDb()->insert($this->tableName(), $data);
+        } else {
+            $ret = $this->getDb()->update($this->tableName(), $data, [
+                $this->pkName => $pk,
+            ]);
+        }
+        return $ret;
     }
 }

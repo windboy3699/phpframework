@@ -26,6 +26,16 @@ class SystemMenuModel extends BaseModel
         return $data;
     }
 
+    public function getAllMenus()
+    {
+        $data = $this->getDb()->select($this->tableName(), '*', [
+            'AND' => [
+                'visible' => 1,
+            ]
+        ]);
+        return $data;
+    }
+
     public function save($data, $pk = 0)
     {
         if (!$pk) {
