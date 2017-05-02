@@ -63,53 +63,49 @@
             <!-- sidebar menu: : style can be found in sidebar.less -->
             <ul class="sidebar-menu">
                 <li class="header">MAIN NAVIGATION</li>
-                <li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-table"></i> <span>Multilevel</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Level One</a></li>
-                        <li>
-                            <a href="#"><i class="fa fa-circle-o"></i> Level One
-                <span class="pull-right-container">
-                  <i class="fa fa-angle-left pull-right"></i>
-                </span>
-                            </a>
-                            <ul class="treeview-menu">
-                                <li><a href="#"><i class="fa fa-circle-o"></i> Level Two</a></li>
-                                <li>
-                                    <a href="#"><i class="fa fa-circle-o"></i> Level Two
-                    <span class="pull-right-container">
-                      <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                                    </a>
-                                    <ul class="treeview-menu">
-                                        <li><a href="#"><i class="fa fa-circle-o"></i> Level Three</a></li>
-                                        <li><a href="#"><i class="fa fa-circle-o"></i> Level Three</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Level One</a></li>
-                    </ul>
-                </li>
 
-                <li class="active treeview">
-                    <a href="#">
-                        <i class="fa fa-dashboard"></i> <span>系统管理</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
+
+                {% for level1 in leftmenus %}
+                <li class="treeview {% if level1.menu.active == 1 %}active{% endif %}">
+                    <a href="{{level1.menu.link|default('javascript:void(0);')}}">
+                        <i class="fa fa-table"></i> <span>{{level1.menu.name}}</span>
+                        {% if level1.submenus %}
+                        <span class="pull-right-container">
+                          <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                        {% endif %}
                     </a>
+                    {% if level1.submenus %}
                     <ul class="treeview-menu">
-                        <li class="active"><a href="/system/user"><i class="fa fa-circle-o"></i> 用户</a></li>
-                        <li><a href="/system/group/"><i class="fa fa-circle-o"></i> 用户组</a></li>
-                        <li><a href="/system/menu/"><i class="fa fa-circle-o"></i> 菜单</a></li>
+                        {% for level2 in level1.submenus %}
+                        <li {% if level2.menu.active == 1 %}class="active"{% endif %}>
+                            <a href="{{level2.menu.link|default('javascript:void(0);')}}">
+                                <i class="fa fa-circle-o"></i>
+                                {{level2.menu.name}}
+                                {% if level2.submenus %}
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                                {% endif %}
+                            </a>
+                            {% if level2.submenus %}
+                            <ul class="treeview-menu">
+                                {% for level3 in level2.submenus %}
+                                <li {% if level3.menu.active == 1 %}class="active"{% endif %}>
+                                    <a href="{{level3.menu.link|default('javascript:void(0);')}}">
+                                        <i class="fa fa-circle-o"></i>
+                                        {{level3.menu.name}}
+                                    </a>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                            {% endif %}
+                        </li>
+                        {% endfor %}
                     </ul>
+                    {% endif %}
                 </li>
+                {% endfor %}
             </ul>
         </section>
         <!-- /.sidebar -->
