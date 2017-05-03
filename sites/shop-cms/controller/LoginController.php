@@ -31,4 +31,10 @@ class LoginController extends Controller
         $_SESSION['system_group_id'] = $user['group_id'];
         $this->showResult(0, '登录成功');
     }
+
+    public function logoutAction()
+    {
+        session_destroy();
+        $this->jump('/login/');
+    }
 }
