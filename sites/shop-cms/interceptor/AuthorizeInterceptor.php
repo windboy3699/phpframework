@@ -20,17 +20,17 @@ class AuthorizeInterceptor extends Interceptor
         if (empty($_SESSION['system_username'])) {
             exit('用户未登录');
         }
-        $group_id = $_SESSION['system_group_id'];
+        $groupId = $_SESSION['system_group_id'];
         //group_id=1默认为超级管理员
-        if ($group_id == 1) {
+        if ($groupId == 1) {
             return Interceptor::STEP_CONTINUE;
         }
         $groupModel = new SystemGroupModel();
-        $groups = $groupModel->findById($group_id);
-        $menu_ids = explode(',', $groups['menus']);
+        $groups = $groupModel->findById($groupId);
+        $menuIds = explode(',', $groups['menus']);
 
         $menuModel = new SystemMenuModel();
-        $menus = $menuModel->findByIds($menu_ids);
+        $menus = $menuModel->findByIds($menuIds);
         if (empty($menus)) {
             exit('用户无访问菜单');
         }

@@ -8,9 +8,10 @@
  */
 namespace App\Controller;
 
+use SPF;
 use SPF\View\View;
 use SPF\Base\Util;
-use App\Model\SystemMenuModel;
+use App\Service\SystemService;
 
 abstract class Controller
 {
@@ -39,7 +40,7 @@ abstract class Controller
      */
     public function __construct()
     {
-        $this->app = \SPF::app();
+        $this->app = SPF::app();
         $this->request = $this->app->getRequest();
         $this->init();
     }
@@ -49,7 +50,9 @@ abstract class Controller
      */
     public function init()
     {
-        $this->setLeftMenus();
+        $systemService = new SystemService();
+        $leftmenus = $systemService->getUserMenusByGroupId($_SESSION['system_group_id']);
+        $this->out['leftmenus'] = $leftmenus;
     }
 
     /**
@@ -112,47 +115,5 @@ abstract class Controller
         $result = json_encode($result, JSON_UNESCAPED_UNICODE);
         echo $cb ? $cb .'('. $result .');' : $result;
         exit;
-    }
-
-    /**
-     * 左侧层级菜单
-     *
-     * @return array
-     */
-    protected function setLeftMenus()
-    {
-        $path = $this->app->getRouter()->getPath();
-
-        $menuModel = new SystemMenuModel();
-        $menusdata = $menuModel->getAllMenus();
-        $menusbykey = $leftmenus = [];
-        foreach ($menusdata as $item) {
-            $menusbykey[$item['id']] = $item;
-        }
-        foreach ($menusdata as $item) {
-            if ($item['path']) {
-                if (strpos($path, trim($item['path'], '\/')) !== false) {
-                    $item['active'] = 1;
-                }
-            }
-            if ($item['level'] == 1) {
-                $leftmenus[$item['id']]['menu'] = $item;
-            }
-            if ($item['level'] == 2) {
-                $leftmenus[$item['topid']]['submenus'][$item['id']]['menu'] = $item;
-                if ($item['active'] == 1) {
-                    $leftmenus[$item['topid']]['menu']['active'] = 1;
-                }
-            }
-            if ($item['level'] == 3) {
-                $topMenu = $menusbykey[$item['topid']];
-                $leftmenus[$topMenu['topid']]['submenus'][$item['topid']]['submenus'][$item['id']]['menu'] = $item;
-                if ($item['active'] == 1) {
-                    $leftmenus[$topMenu['topid']]['menu']['active'] = 1;
-                    $leftmenus[$topMenu['topid']]['submenus'][$item['topid']]['menu']['active'] = 1;
-                }
-            }
-        }
-        $this->out['leftmenus'] = $leftmenus;
     }
 }

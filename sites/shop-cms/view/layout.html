@@ -64,7 +64,7 @@
             <ul class="sidebar-menu">
                 <li class="header">MAIN NAVIGATION</li>
 
-
+                {% if leftmenus %}
                 {% for level1 in leftmenus %}
                 <li class="treeview {% if level1.menu.active == 1 %}active{% endif %}">
                     <a href="{{level1.menu.link|default('javascript:void(0);')}}">
@@ -106,6 +106,7 @@
                     {% endif %}
                 </li>
                 {% endfor %}
+                {% endif %}
             </ul>
         </section>
         <!-- /.sidebar -->

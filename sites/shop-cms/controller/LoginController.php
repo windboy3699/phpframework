@@ -9,6 +9,7 @@
 namespace App\Controller;
 
 use App\Model\SystemUserModel;
+use App\Model\SystemGroupModel;
 
 class LoginController extends Controller
 {
@@ -26,9 +27,12 @@ class LoginController extends Controller
         if (!$user) {
             $this->showResult(-1, '用户名或密码错误');
         }
+        $groupModel = new SystemGroupModel();
+        $group = $groupModel->findById($user['group_id']);
         $_SESSION['system_username'] = $user['username'];
         $_SESSION['system_realname'] = $user['realname'];
         $_SESSION['system_group_id'] = $user['group_id'];
+        $_SESSION['system_group_name'] = $group['name'];
         $this->showResult(0, '登录成功');
     }
 
