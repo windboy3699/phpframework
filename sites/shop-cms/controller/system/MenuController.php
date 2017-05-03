@@ -28,7 +28,7 @@ class MenuController extends Controller
         $this->out['menus'] = $menus;
         $this->out['topid'] = $topid;
         $this->out['addmenu'] = $addmenu;
-        $this->out['breadcrumbs'] = $this->getBreadCrumbsIndex();
+        $this->out['breadcrumbs'] = $this->getBreadCrumbs('index');
         $this->render('system/menu.html');
     }
 
@@ -38,7 +38,7 @@ class MenuController extends Controller
         $this->out['menu']['topid'] = $topid;
         $this->out['menu']['sort'] = 100;
         $this->out['menu']['visible'] = 1;
-        $this->out['breadcrumbs'] = $this->getBreadCrumbsAdd();
+        $this->out['breadcrumbs'] = $this->getBreadCrumbs('add');
         $this->render('system/menu_edit.html');
     }
 
@@ -48,7 +48,7 @@ class MenuController extends Controller
         $model = new SystemMenuModel();
         $menu = $model->findById($id);
         $this->out['menu'] = $menu;
-        $this->out['breadcrumbs'] = $this->getBreadCrumbsEdit();
+        $this->out['breadcrumbs'] = $this->getBreadCrumbs('edit');
         $this->render('system/menu_edit.html');
     }
 
@@ -92,42 +92,37 @@ class MenuController extends Controller
         }
     }
 
-    protected function getBreadCrumbsIndex()
+    protected function getBreadCrumbs($action)
     {
-        return [
-            [
-                'name' => '系统管理',
-                'link' => '',
-            ], [
-                'name' => '菜单管理',
-                'link' => '',
-            ]
+        $data = [
+            'index' => [
+                [
+                    'name' => '系统管理',
+                    'link' => '',
+                ], [
+                    'name' => '菜单管理',
+                    'link' => '',
+                ]
+            ],
+            'add' => [
+                [
+                    'name' => '系统管理',
+                    'link' => '',
+                ], [
+                    'name' => '菜单添加',
+                    'link' => '',
+                ]
+            ],
+            'edit' => [
+                [
+                    'name' => '系统管理',
+                    'link' => '',
+                ], [
+                    'name' => '菜单编辑',
+                    'link' => '',
+                ]
+            ],
         ];
-    }
-
-    protected function getBreadCrumbsAdd()
-    {
-        return [
-            [
-                'name' => '系统管理',
-                'link' => '',
-            ], [
-                'name' => '菜单添加',
-                'link' => '',
-            ]
-        ];
-    }
-
-    protected function getBreadCrumbsEdit()
-    {
-        return [
-            [
-                'name' => '系统管理',
-                'link' => '',
-            ], [
-                'name' => '菜单编辑',
-                'link' => '',
-            ]
-        ];
+        return isset($data[$action]) ? $data[$action] : [];
     }
 }
