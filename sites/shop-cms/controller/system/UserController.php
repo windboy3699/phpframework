@@ -99,27 +99,21 @@ class UserController extends Controller
 
     protected function getBreadCrumbs($action)
     {
-        $data = [
-            'index' => [
-                [
+        $data = ['index' => [[
                     'name' => '系统管理',
                     'link' => '',
                 ], [
                     'name' => '用户管理',
                     'link' => '',
                 ]
-            ],
-            'add' => [
-                [
+            ], 'add' => [[
                     'name' => '系统管理',
                     'link' => '',
                 ], [
                     'name' => '用户添加',
                     'link' => '',
                 ]
-            ],
-            'edit' => [
-                [
+            ], 'edit' => [[
                     'name' => '系统管理',
                     'link' => '',
                 ], [

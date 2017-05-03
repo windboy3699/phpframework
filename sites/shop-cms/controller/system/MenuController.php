@@ -94,27 +94,21 @@ class MenuController extends Controller
 
     protected function getBreadCrumbs($action)
     {
-        $data = [
-            'index' => [
-                [
+        $data = ['index' => [[
                     'name' => '系统管理',
                     'link' => '',
                 ], [
                     'name' => '菜单管理',
                     'link' => '',
                 ]
-            ],
-            'add' => [
-                [
+            ], 'add' => [[
                     'name' => '系统管理',
                     'link' => '',
                 ], [
                     'name' => '菜单添加',
                     'link' => '',
                 ]
-            ],
-            'edit' => [
-                [
+            ], 'edit' => [[
                     'name' => '系统管理',
                     'link' => '',
                 ], [
