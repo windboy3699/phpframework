@@ -22,7 +22,7 @@
     <div class="login-box-body">
         <p class="login-box-msg">Sign in to start your session</p>
 
-        <form action="/login/check" method="post">
+        <form action="/login/check" method="post" data-redirect="/">
             <div class="form-group has-feedback">
                 <input type="text" name="username" class="form-control" placeholder="用户名">
                 <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
@@ -41,7 +41,7 @@
                 </div>
                 <!-- /.col -->
                 <div class="col-xs-4">
-                    <button type="submit" class="btn btn-primary btn-block btn-flat">登 录</button>
+                    <button type="submit" class="btn btn-primary btn-block btn-flat J_Do_Post">登 录</button>
                 </div>
                 <!-- /.col -->
             </div>
@@ -57,6 +57,8 @@
 <script src="{{static}}/bootstrap/js/bootstrap.min.js"></script>
 <!-- iCheck -->
 <script src="{{static}}/plugins/iCheck/icheck.min.js"></script>
+<script src="{{static}}/app/utils.js"></script>
+<script src="{{static}}/app/public.js"></script>
 <script>
     $(function () {
         $('input').iCheck({

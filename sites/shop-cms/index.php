@@ -35,4 +35,5 @@ SPF::registerAutoloader($autoloadPsr4);
 $app = SPF::createWebApplication();
 $app->setRouteMode('rule');
 $app->setConfigPaths($configPaths);
+SPF\Session\Session::start([], 'redis', $app->getRedis());
 $app->run();

@@ -21,22 +21,14 @@ class LoginController extends Controller
     {
         $username = $this->request->getParam('username', '');
         $password = $this->request->getParam('password', '');
-
         $model = new SystemUserModel();
-
-        $where = [
-            'AND' => [
-                'username' => $username,
-                'password' => md5($password),
-            ]
-        ];
-
-        $user = $model->getDb()->select($model->tableName(), '*', $where);
-
-        if (empty($user)) {
-            $this->jump('', '用户名或密码错误');
-        } else {
-            $this->jump('/');
+        $user = $model->checkLogin($username, $password);
+        if (!$user) {
+            $this->showResult(-1, '用户名或密码错误');
         }
+        $_SESSION['system_username'] = $user['username'];
+        $_SESSION['system_realname'] = $user['realname'];
+        $_SESSION['system_group_id'] = $user['group_id'];
+        $this->showResult(0, '登录成功');
     }
 }

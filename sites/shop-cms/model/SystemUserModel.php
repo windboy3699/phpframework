@@ -16,6 +16,17 @@ class SystemUserModel extends BaseModel
 
     protected $tableName = 'system_user';
 
+    public function checkLogin($username, $password)
+    {
+        $where = [
+            'AND' => [
+                'username' => $username,
+                'password' => md5($password),
+            ]
+        ];
+        return $this->getDb()->fetchRow($this->tableName(), '*', $where);
+    }
+
     public function getUsers($offset = 0, $limit = 20)
     {
         $where = [
