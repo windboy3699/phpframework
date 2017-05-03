@@ -18,12 +18,14 @@ class GroupController extends Controller
     {
         $model = new SystemGroupModel();
         $this->out['groups'] = $model->getAllGroups();
+        $this->out['breadcrumbs'] = $this->getBreadCrumbsIndex();
         $this->render('system/group.html');
     }
 
     public function addAction()
     {
         $this->out['levelmenus'] = $this->getLevleMenus();
+        $this->out['breadcrumbs'] = $this->getBreadCrumbsAdd();
         $this->render('system/group_edit.html');
     }
 
@@ -37,6 +39,7 @@ class GroupController extends Controller
         $this->out['group'] = $group;
         $this->out['menus'] = explode(',', $group['menus']);
         $this->out['levelmenus'] = $this->getLevleMenus();
+        $this->out['breadcrumbs'] = $this->getBreadCrumbsEdit();
         $this->render('system/group_edit.html');
     }
 
@@ -82,5 +85,44 @@ class GroupController extends Controller
             }
         }
         return $levelmenus;
+    }
+
+    protected function getBreadCrumbsIndex()
+    {
+        return [
+            [
+                'name' => '系统管理',
+                'link' => '',
+            ], [
+                'name' => '用户组管理',
+                'link' => '',
+            ]
+        ];
+    }
+
+    protected function getBreadCrumbsAdd()
+    {
+        return [
+            [
+                'name' => '系统管理',
+                'link' => '',
+            ], [
+                'name' => '用户添加',
+                'link' => '',
+            ]
+        ];
+    }
+
+    protected function getBreadCrumbsEdit()
+    {
+        return [
+            [
+                'name' => '系统管理',
+                'link' => '',
+            ], [
+                'name' => '用户编辑',
+                'link' => '',
+            ]
+        ];
     }
 }

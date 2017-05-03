@@ -1,0 +1,11 @@
+{% if breadcrumbs %}
+<small>
+    {% for bread in breadcrumbs %}
+    {% if bread.link %}
+    <a href="{{bread.link}}">{{bread.name}}</a> {% if loop.last == false %}>{% endif %}
+    {% else %}
+    {{bread.name}} {% if loop.last == false %}>{% endif %}
+    {% endif %}
+    {% endfor %}
+</small>
+{% endif %}

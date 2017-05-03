@@ -55,6 +55,7 @@ abstract class Controller
         $this->out['leftmenus'] = $leftmenus;
         $this->out['system_realname'] = $_SESSION['system_realname'] ? $_SESSION['system_realname'] : '';
         $this->out['system_group_name'] = $_SESSION['system_group_name'] ? $_SESSION['system_group_name'] : '';
+        $this->out['breadcrumbs'] = [];
         $this->out['static'] = 'http://cms.shop.com/static';
         $this->out['cururl'] = Util::getCurUrl();
         $this->out['referer'] = $_SERVER['HTTP_REFERER'];

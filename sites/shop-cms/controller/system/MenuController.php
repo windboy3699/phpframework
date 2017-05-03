@@ -28,6 +28,7 @@ class MenuController extends Controller
         $this->out['menus'] = $menus;
         $this->out['topid'] = $topid;
         $this->out['addmenu'] = $addmenu;
+        $this->out['breadcrumbs'] = $this->getBreadCrumbsIndex();
         $this->render('system/menu.html');
     }
 
@@ -37,6 +38,7 @@ class MenuController extends Controller
         $this->out['menu']['topid'] = $topid;
         $this->out['menu']['sort'] = 100;
         $this->out['menu']['visible'] = 1;
+        $this->out['breadcrumbs'] = $this->getBreadCrumbsAdd();
         $this->render('system/menu_edit.html');
     }
 
@@ -46,6 +48,7 @@ class MenuController extends Controller
         $model = new SystemMenuModel();
         $menu = $model->findById($id);
         $this->out['menu'] = $menu;
+        $this->out['breadcrumbs'] = $this->getBreadCrumbsEdit();
         $this->render('system/menu_edit.html');
     }
 
@@ -87,5 +90,44 @@ class MenuController extends Controller
         } else {
             $this->showResult(-2, '执行失败');
         }
+    }
+
+    protected function getBreadCrumbsIndex()
+    {
+        return [
+            [
+                'name' => '系统管理',
+                'link' => '',
+            ], [
+                'name' => '菜单管理',
+                'link' => '',
+            ]
+        ];
+    }
+
+    protected function getBreadCrumbsAdd()
+    {
+        return [
+            [
+                'name' => '系统管理',
+                'link' => '',
+            ], [
+                'name' => '菜单添加',
+                'link' => '',
+            ]
+        ];
+    }
+
+    protected function getBreadCrumbsEdit()
+    {
+        return [
+            [
+                'name' => '系统管理',
+                'link' => '',
+            ], [
+                'name' => '菜单编辑',
+                'link' => '',
+            ]
+        ];
     }
 }

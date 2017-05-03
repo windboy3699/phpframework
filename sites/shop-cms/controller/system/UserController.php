@@ -19,12 +19,14 @@ class UserController extends Controller
         $userModel = new SystemUserModel();
         $users = $userModel->getUsers();
         $this->out['users'] = $users;
+        $this->out['breadcrumbs'] = $this->getBreadCrumbsIndex();
         $this->render('system/user.html');
     }
 
     public function addAction()
     {
         $this->out['groups'] = $this->getGroups();
+        $this->out['breadcrumbs'] = $this->getBreadCrumbsAdd();
         $this->render('system/user_edit.html');
     }
 
@@ -37,6 +39,7 @@ class UserController extends Controller
 
         $this->out['user'] = $user;
         $this->out['groups'] = $this->getGroups();
+        $this->out['breadcrumbs'] = $this->getBreadCrumbsEdit();
         $this->render('system/user_edit.html');
     }
 
@@ -94,4 +97,42 @@ class UserController extends Controller
         return $groups;
     }
 
+    protected function getBreadCrumbsIndex()
+    {
+        return [
+            [
+                'name' => '系统管理',
+                'link' => '',
+            ], [
+                'name' => '用户管理',
+                'link' => '',
+            ]
+        ];
+    }
+
+    protected function getBreadCrumbsAdd()
+    {
+        return [
+            [
+                'name' => '系统管理',
+                'link' => '',
+            ], [
+                'name' => '用户添加',
+                'link' => '',
+            ]
+        ];
+    }
+
+    protected function getBreadCrumbsEdit()
+    {
+        return [
+            [
+                'name' => '系统管理',
+                'link' => '',
+            ], [
+                'name' => '用户编辑',
+                'link' => '',
+            ]
+        ];
+    }
 }
