@@ -92,7 +92,7 @@ class MenuController extends Controller
         }
     }
 
-    protected function getBreadCrumbs($action)
+    private function getBreadCrumbs($action)
     {
         $data = ['index' => [[
                     'name' => '系统管理',
