@@ -18,7 +18,7 @@ class AuthorizeInterceptor extends Interceptor
     public function before()
     {
         if (empty($_SESSION['system_username'])) {
-            exit('用户未登录');
+            $this->jump('/login/');
         }
         $groupId = $_SESSION['system_group_id'];
         //group_id=1默认为超级管理员
@@ -53,5 +53,24 @@ class AuthorizeInterceptor extends Interceptor
     public function after()
     {
         return Interceptor::STEP_CONTINUE;
+    }
+
+    /**
+     * 页面跳转，默认跳回前一页
+     *
+     * @param string $url
+     * @param string $message
+     */
+    private function jump($url = '', $message = '')
+    {
+        if ($url == '') {
+            $url = empty($_SERVER['HTTP_REFERER']) ? '/' : $_SERVER['HTTP_REFERER'];
+        }
+        if ($message) {
+            echo '<script>alert("', $message, '");document.location.href="', $url, '";</script>';
+        } else {
+            echo '<script>document.location.href="', $url, '";</script>';
+        }
+        exit;
     }
 }

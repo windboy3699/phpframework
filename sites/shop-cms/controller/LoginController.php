@@ -33,7 +33,7 @@ class LoginController extends Controller
         $_SESSION['system_realname'] = $user['realname'];
         $_SESSION['system_group_id'] = $user['group_id'];
         $_SESSION['system_group_name'] = $group['name'];
-        $this->showResult(0, '登录成功');
+        $this->showResult(0, '');
     }
 
     public function logoutAction()
