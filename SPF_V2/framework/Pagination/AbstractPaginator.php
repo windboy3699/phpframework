@@ -1,8 +1,8 @@
 <?php
 /**
- * Created by PhpStorm.
+ * Pagination Abstract
  *
- * @package
+ * @package SPF.Pagination
  * @author  XiaodongPan
  * @version $Id: AbstractPaginator.php 2017-05-04 $
  */
@@ -20,80 +20,70 @@ abstract class AbstractPaginator
     protected $total;
 
     /**
-     * 每页数量
+     * 每页显示条目数量
      *
      * @var int
      */
     protected $perPage;
 
     /**
-     * 当前页码
+     * 当前页码(第几页)
      *
      * @var int
      */
     protected $currentPage;
 
     /**
-     * 页数参数名称
+     * 页码参数名称
      *
      * @var string
      */
     protected $pageName;
 
     /**
-     * 总页数
+     * 条目可分总页数
      *
      * @var int
      */
     protected $pageTotal;
 
     /**
-     * 显示的分页数量
+     * 显示的分页个数
      *
      * @var int
      */
-    protected $pageLength;
+    protected $pageSize;
 
+    /**
+     * @var View
+     */
     protected $view = null;
 
+    /**
+     * @var string
+     */
     protected $uri;
 
     /**
-     * Create a new paginator instance.
-     *
-     * @param  int  $total
-     * @param  int  $perPage
-     * @param  int  $currentPage
-     * @param  string  $pageName
-     * @return void
+     * @param $total 条目总数
+     * @param int $perPage 每页显示条目数
+     * @param int $pageSize 显示页码数量
+     * @param string $pageName 页码参数名
      */
-    public function __construct($total, $perPage = 10, $pageLength = 7, $pageName = 'p')
+    public function __construct($total, $perPage = 10, $pageSize = 7, $pageName = 'p')
     {
         $this->total = $total;
         $this->perPage = $perPage;
-        $this->pageLength = $pageLength;
+        $this->pageSize = $pageSize;
         $this->pageName = $pageName;
         $this->pageTotal = ceil($total/$perPage);
         $this->currentPage = $this->getCurrentPage();
         $this->uri = $this->getUri();
     }
 
-    public function render()
-    {
-        if ($this->pageTotal == 1) {
-            return '';
-        }
-        $data = [
-            'first_page_url' => $this->firstPageUrl(),
-            'last_page_url' => $this->lastPageUrl(),
-            'prev_page_url' => $this->prevPageUrl(),
-            'next_page_url' => $this->nextPageUrl(),
-            'multiple_pages_url' => $this->multiplePagesUrl(),
-        ];
-        return $this->getView()->render('default.html', $data);
-    }
+    abstract public function render();
 
-    public function getCurrentPage()
+    private function getCurrentPage()
     {
         $page = isset($_GET[$this->pageName]) ? (int)$_GET[$this->pageName] : 1;
         $page > 0 || $page = 1;
@@ -101,49 +91,66 @@ abstract class AbstractPaginator
         return $page;
     }
 
-    public function firstPageUrl()
+    private function getUri()
+    {
+        $uriArray = parse_url($_SERVER["REQUEST_URI"]);
+        if (isset($uriArray['query'])) {
+            parse_str($uriArray['query'], $query);
+            unset($query[$this->pageName]);
+            while ($key = array_search('', $query)) {
+                unset($query[$key]);
+            }
+            $uri = $uriArray['path'] . '?' . http_build_query($query);
+        } else {
+            $uri = $uriArray['path'] . '?';
+        }
+        strpos($uri, '=') !== false && $uri .= '&';
+        return $uri;
+    }
+
+    protected function firstPageUrl()
     {
         return $this->currentPage == 1 ? '' : $this->buildUrl(1);
     }
 
-    public function lastPageUrl()
+    protected function lastPageUrl()
     {
         return $this->currentPage == $this->pageTotal ? '' : $this->buildUrl($this->pageTotal);
     }
 
-    public function prevPageUrl()
+    protected function prevPageUrl()
     {
         return $this->currentPage == 1 ? '' : $this->buildUrl($this->currentPage - 1);
     }
 
-    public function nextPageUrl()
+    protected function nextPageUrl()
     {
         return $this->currentPage == $this->pageTotal ? '' : $this->buildUrl($this->currentPage + 1);
     }
 
-    public function buildUrl($page)
+    protected function buildUrl($page)
     {
         return $this->uri . $this->pageName . '=' . $page;
     }
 
-    public function multiplePagesUrl()
+    protected function listPagesUrl()
     {
-        if ($this->pageTotal <= $this->pageLength) {
+        if ($this->pageTotal <= $this->pageSize) {
             $start = 1;
             $stop = $this->pageTotal;
         } else {
 
-            $leftlength = floor(($this->pageLength - 1)/2);
+            $leftlength = floor(($this->pageSize - 1)/2);
 
             $start = $this->currentPage - $leftlength;
             $start < 1 && $start = 1;
 
             $haslength = $this->currentPage - $start + 1;
-            $stop = $this->currentPage + ($this->pageLength - $haslength);
+            $stop = $this->currentPage + ($this->pageSize - $haslength);
 
             if ($stop > $this->pageTotal) {
                 $stop = $this->pageTotal;
-                $start = $this->pageTotal - $this->pageLength + 1;
+                $start = $this->pageTotal - $this->pageSize + 1;
             }
         }
 
@@ -158,39 +165,7 @@ abstract class AbstractPaginator
         return $data;
     }
 
-    /**
-     * 处理获取新的url
-     *
-     * @return string
-     */
-    private function getUri()
-    {
-        $url = $_SERVER["REQUEST_URI"];
-        $parseArray = parse_url($url);
-        if (isset($parseArray['query'])) {
-            parse_str($parseArray['query'], $query);
-            $uriArray = array();
-            array_merge($query, $uriArray);
-            unset($query[$this->pageName]);
-            while ($key = array_search('', $query)) {
-                unset($query[$key]);
-            }
-            $uri = $parseArray['path'] . '?' . http_build_query($query);
-        } else {
-            $uri = $parseArray['path'] . '?';
-        }
-        if (strpos($uri, '=') !== false) {
-            $uri .= '&';
-        }
-        return $uri;
-    }
-
-    /**
-     * 获取模板引擎
-     *
-     * @return Twig_Environment
-     */
-    public function getView()
+    protected function getView()
     {
         if ($this->view === null) {
             $this->view = View::create(dirname(__FILE__) . '/view/');
