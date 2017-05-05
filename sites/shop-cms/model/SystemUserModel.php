@@ -41,6 +41,11 @@ class SystemUserModel extends BaseModel
         return $data;
     }
 
+    public function getUsersCount()
+    {
+        return $this->getDb()->count($this->tableName());
+    }
+
     public function save($data, $pk = 0)
     {
         if (!$pk) {

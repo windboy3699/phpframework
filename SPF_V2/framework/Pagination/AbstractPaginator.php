@@ -70,7 +70,7 @@ abstract class AbstractPaginator
      * @param int $pageSize 显示页码数量
      * @param string $pageName 页码参数名
      */
-    public function __construct($total, $perPage = 10, $pageSize = 7, $pageName = 'p')
+    public function __construct($total, $perPage = 20, $pageSize = 7, $pageName = 'p')
     {
         $this->total = $total;
         $this->perPage = $perPage;

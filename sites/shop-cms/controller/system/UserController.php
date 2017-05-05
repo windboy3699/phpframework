@@ -17,13 +17,16 @@ class UserController extends Controller
 {
     public function indexAction()
     {
-        $paginator = new Paginator(100);
-
         $userModel = new SystemUserModel();
         $users = $userModel->getUsers();
+
+        $total = $userModel->getUsersCount();
+        $paginator = new Paginator($total);
+        $pagination = $paginator->render();
+
         $this->out['users'] = $users;
         $this->out['breadcrumbs'] = $this->getBreadCrumbs('index');
-        $this->out['paginator'] = $paginator->render();
+        $this->out['pagination'] = $pagination;
         $this->render('system/user.html');
     }
 
