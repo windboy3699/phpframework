@@ -33,7 +33,7 @@ $configPaths = [
     SITES_PATH . '/game-core/config',
 ];
 
-SPF::registerAutoloader($autoloadPsr4);
-$app = SPF::createWebApplication();
+SPF\SPF::registerAutoloader($autoloadPsr4);
+$app = SPF\SPF::createWebApplication();
 $app->setConfigPaths($configPaths);
 $app->run();

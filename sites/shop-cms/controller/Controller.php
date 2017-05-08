@@ -8,7 +8,7 @@
  */
 namespace App\Controller;
 
-use SPF;
+use SPF\SPF;
 use SPF\View\View;
 use App\Service\SystemService;
 

@@ -8,7 +8,7 @@
  */
 namespace App\Interceptor;
 
-use SPF;
+use SPF\SPF;
 use SPF\Interception\Interceptor;
 use App\Model\SystemGroupModel;
 use App\Model\SystemMenuModel;

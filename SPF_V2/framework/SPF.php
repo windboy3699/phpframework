@@ -6,6 +6,8 @@
  * @author  XiaodongPan
  * @version $Id: SPF.php 2017-04-17 $
  */
+namespace SPF;
+
 use SPF\Application\WebApplication;
 use SPF\Application\CliApplication;
 
@@ -54,7 +56,7 @@ class SPF
     public static function registerAutoloader(array $autoloadPsr4)
     {
         self::$autoloadPsr4 = $autoloadPsr4;
-        spl_autoload_register(array('SPF', 'autoload'));
+        spl_autoload_register(array('\\SPF\\SPF', 'autoload'));
     }
 
     /**

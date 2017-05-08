@@ -31,8 +31,8 @@ $configPaths = [
     SITES_PATH . '/shop-core/config',
 ];
 
-SPF::registerAutoloader($autoloadPsr4);
-$app = SPF::createWebApplication();
+SPF\SPF::registerAutoloader($autoloadPsr4);
+$app = SPF\SPF::createWebApplication();
 $app->setRouteMode('rule');
 $app->setConfigPaths($configPaths);
 SPF\Session\Session::start([], 'redis', $app->getRedis());

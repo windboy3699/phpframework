@@ -8,7 +8,7 @@
  */
 namespace SPF\Database;
 
-use SPF;
+use SPF\SPF;
 use SPF\Database\Factory as DbFactory;
 
 abstract class Model

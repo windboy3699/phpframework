@@ -1,17 +1,19 @@
 <?php
 /**
- * Redis Queue
+ * RedisQueue
  *
  * @package SPF.Queue
  * @author  XiaodongPan
- * @version $Id: Redis.php 2017-04-12 $
+ * @version $Id: RedisQueue.php 2017-04-12 $
  */
 namespace SPF\Queue;
+
+use SPF\Cache\Redis;
 
 class RedisQueue implements QueueInterface
 {
     /**
-     * @var \SPF\Cache\Redis
+     * @var Redis
      */
     private $redis;
 
@@ -20,7 +22,7 @@ class RedisQueue implements QueueInterface
      */
     private $name = 'queue';
 
-    public function __construct($name, \SPF\Cache\Redis $redis)
+    public function __construct($name, Redis $redis)
     {
         $this->redis = $redis;
         $this->name = $name;

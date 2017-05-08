@@ -8,16 +8,18 @@
  */
 namespace SPF\Session\Handler;
 
+use SPF\Cache\Memcache;
+
 class MemcacheHandler implements HandlerInterface
 {
     /**
-     * @var \SPF\Cache\Memcache
+     * @var Memcache
      */
     private $memcache;
 
     private $lifetime = 1440;
 
-    public function __construct(\SPF\Cache\Memcache $memcache)
+    public function __construct(Memcache $memcache)
     {
         if ($this->memcache === null) {
             $this->memcache = $memcache;

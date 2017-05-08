@@ -8,6 +8,7 @@
  */
 namespace App\Controller;
 
+use SPF\SPF;
 use SPF\View\View;
 
 abstract class Controller
@@ -37,7 +38,7 @@ abstract class Controller
      */
     public function __construct()
     {
-        $this->app = \SPF::app();
+        $this->app = SPF::app();
         $this->request = $this->app->getRequest();
     }
 

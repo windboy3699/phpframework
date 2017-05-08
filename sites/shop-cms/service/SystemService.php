@@ -8,7 +8,7 @@
  */
 namespace App\Service;
 
-use SPF;
+use SPF\SPF;
 use App\Model\SystemUserModel;
 use App\Model\SystemGroupModel;
 use App\Model\SystemMenuModel;
