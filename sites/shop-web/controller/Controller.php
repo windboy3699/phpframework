@@ -18,7 +18,7 @@ abstract class Controller
     public $app;
 
     /**
-     * @var \SPF\Base\Request
+     * @var \SPF\Http\Request
      */
     public $request;
 

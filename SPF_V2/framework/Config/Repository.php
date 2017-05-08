@@ -1,14 +1,14 @@
 <?php
 /**
- * 配置读取类
+ * 配置库
  *
- * @package SPF.Base
+ * @package SPF.Config
  * @author  XiaodongPan
- * @version $Id: Config.php 2017-04-12 $
+ * @version $Id: Repository.php 2017-05-08 $
  */
-namespace SPF\Base;
+namespace SPF\Config;
 
-class Config
+class Repository
 {
     private $configs = [];
 

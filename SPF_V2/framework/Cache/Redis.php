@@ -43,10 +43,10 @@ class Redis implements CacheInterface
     public function __construct(array $config)
     {
         if (!$config['master'] || !$config['slave']) {
-            throw new Exception('Redis缺少配置');
+            throw new CacheException('Redis缺少配置');
         }
         if (!extension_loaded('redis')) {
-            throw new Exception('Redis扩展不存在');
+            throw new CacheException('Redis扩展不存在');
         }
         $this->config['master'] = isset($config['master']) ? $config['master'] : [];
         $this->config['slave'] = isset($config['slave']) ? $config['slave'] : [];

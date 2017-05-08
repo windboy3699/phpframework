@@ -10,18 +10,18 @@ namespace SPF\Application;
 
 use SPF\Routing\MapRouter;
 use SPF\Routing\RuleRouter;
-use SPF\Base\Interceptor;
-use SPF\Base\Request;
+use SPF\Interception\Interceptor;
+use SPF\Http\Request;
 
 class WebApplication extends Application
 {
     /**
-     * @var \SPF\Routing\Router
+     * @var MapRouter | RuleRouter
      */
     private $router;
 
     /**
-     * @var \SPF\Base\Request
+     * @var Request
      */
     private $request;
 
@@ -137,7 +137,7 @@ class WebApplication extends Application
     /**
      * 获取Request对象
      *
-     * @return \SPF\Base\Request
+     * @return Request
      */
     public function getRequest()
     {

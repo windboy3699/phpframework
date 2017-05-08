@@ -10,7 +10,6 @@ namespace App\Controller;
 
 use SPF;
 use SPF\View\View;
-use SPF\Base\Util;
 use App\Service\SystemService;
 
 abstract class Controller
@@ -21,7 +20,7 @@ abstract class Controller
     public $app;
 
     /**
-     * @var \SPF\Base\Request
+     * @var \SPF\Http\Request
      */
     public $request;
 
@@ -57,7 +56,7 @@ abstract class Controller
         $this->out['system_group_name'] = $_SESSION['system_group_name'] ? $_SESSION['system_group_name'] : '';
         $this->out['breadcrumbs'] = [];
         $this->out['static'] = 'http://cms.shop.com/static';
-        $this->out['cururl'] = Util::getCurUrl();
+        $this->out['cururl'] = $this->request->getCurUrl();
         $this->out['referer'] = $_SERVER['HTTP_REFERER'];
     }
 

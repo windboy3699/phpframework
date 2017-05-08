@@ -8,8 +8,8 @@
  */
 namespace SPF\Application;
 
-use SPF\Base\Config;
-use SPF\Database\Db;
+use SPF\Config\Repository as ConfigRepository;
+use SPF\Database\Factory as DbFactory;
 use SPF\Cache\Memcache;
 use SPF\Cache\Redis;
 
@@ -45,10 +45,10 @@ class Application
      */
     public function getConfig($name, $file = 'common', $default = null)
     {
-        if (!isset($this->components['config'])) {
-            $this->components['config'] = new Config($this->configPaths);
+        if (!isset($this->components['configRepository'])) {
+            $this->components['configRepository'] = new ConfigRepository($this->configPaths);
         }
-        return $this->components['config']->get($name, $file, $default);
+        return $this->components['configRepository']->get($name, $file, $default);
     }
 
     /**
@@ -62,7 +62,7 @@ class Application
     public function getDb($dbname, $alwaysMaster = false)
     {
         $config = $this->getConfig('db_' . $dbname, 'server');
-        return Db::getInstance($config, $alwaysMaster);
+        return DbFactory::getInstance($config, $alwaysMaster);
     }
 
     /**

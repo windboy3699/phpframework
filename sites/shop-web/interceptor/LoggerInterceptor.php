@@ -5,19 +5,22 @@
  * @author  XiaodongPan
  * @version $Id: AuthInterceptor.php 2017-03-30 $
  */
+namespace App\Interceptor;
 
-class LoggerInterceptor extends  SPF_Interceptor
+use SPF\Interception\Interceptor;
+
+class LoggerInterceptor extends  Interceptor
 {
     public function before()
     {
         echo 777;
-        return SPF_Interceptor::STEP_CONTINUE;
+        return Interceptor::STEP_CONTINUE;
     }
 
     public function after()
     {
         echo 666;
-        return SPF_Interceptor::STEP_CONTINUE;
+        return Interceptor::STEP_CONTINUE;
     }
 }
 

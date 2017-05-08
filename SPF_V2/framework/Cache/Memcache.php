@@ -48,7 +48,7 @@ class Memcache implements CacheInterface
                 }
             }
         } else {
-            throw new Exception('MemCache server config not defined');
+            throw new CacheException('MemCache server config not defined');
         }
     }
 
@@ -59,7 +59,7 @@ class Memcache implements CacheInterface
         } else {
             $extension = $this->useMemcached ? 'memcached' : 'memcache';
             if (!extension_loaded($extension)) {
-                throw new Exception("MemCache requires PHP $extension extension to be loaded.");
+                throw new CacheException("MemCache requires PHP $extension extension to be loaded.");
             }
             return $this->cache = $this->useMemcached ? new \Memcached : new \Memcache;
         }

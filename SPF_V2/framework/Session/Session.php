@@ -36,7 +36,7 @@ class Session
      * @param array $options
      * @param string $handlerType redis|memcache
      * @param CacheInterface $storge
-     * @throws Exception
+     * @throws SessionException
      */
     public static function start(array $options = array(), $handlerType = '', CacheInterface $storge = null)
     {
@@ -61,7 +61,7 @@ class Session
     {
         foreach ($options as $key=>$value) {
             if (!in_array($key, self::$validOptions)) {
-                throw new Exception('未知的Session配置参数：'. $key);
+                throw new SessionException('未知的Session配置参数：'. $key);
             }
             ini_set("session.$key", $value);
         }

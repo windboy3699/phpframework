@@ -2,20 +2,19 @@
 /**
  * Request
  *
- * @package SPF.Base
+ * @package SPF.Http
  * @author  XiaodongPan
  * @version $Id: Request.php 2017-04-12 $
  */
-namespace SPF\Base;
+namespace SPF\Http;
 
 class Request
 {
     public function __construct()
     {
-        //安全过虑
-        Util::recurAddslashes($_GET);
-        Util::recurAddslashes($_POST);
-        Util::recurAddslashes($_COOKIE);
+        self::recurAddslashes($_GET);
+        self::recurAddslashes($_POST);
+        self::recurAddslashes($_COOKIE);
     }
 
     public function getParam($key, $default = null)
@@ -82,6 +81,15 @@ class Request
         return $_SERVER['HTTP_USER_AGENT'];
     }
 
+    public function getCurUrl()
+    {
+        $sys_protocal = isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == '443' ? 'https://' : 'http://';
+        $php_self = $_SERVER['PHP_SELF'] ? $_SERVER['PHP_SELF'] : $_SERVER['SCRIPT_NAME'];
+        $path_info = isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : '';
+        $relate_url = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : $php_self.(isset($_SERVER['QUERY_STRING']) ? '?'.$_SERVER['QUERY_STRING'] : $path_info);
+        return $sys_protocal.(isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '').$relate_url;
+    }
+
     public function getIp()
     {
         if(isset($_SERVER['HTTP_X_REAL_IP'])) {
@@ -101,5 +109,24 @@ class Request
             $ip = substr($ip, 0, $p);
         }
         return $ip;
+    }
+
+    /**
+     * addslashes
+     * Key不允许出现引号
+     */
+    private static function recurAddslashes(&$var)
+    {
+        if (is_array($var)) {
+            foreach ($var as $key=>$value) {
+                if (preg_match('/[\"\'\\\]/', $key)) {
+                    unset($var[$key]);
+                } else {
+                    self::recurAddslashes($var[$key]);
+                }
+            }
+        } else {
+            $var = addslashes($var);
+        }
     }
 }

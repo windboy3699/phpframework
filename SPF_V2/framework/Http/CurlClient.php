@@ -1,14 +1,14 @@
 <?php
 /**
- * Curl Http Request
+ * HttpCurlClinet
  *
- * @package SPF.Base
+ * @package SPF.Http
  * @author  XiaodongPan
- * @version $Id: Curl.php 2017-04-12 $
+ * @version $Id: CurlClient.php 2017-05-08 $
  */
-namespace SPF\Base;
+namespace SPF\Http;
 
-class Curl
+class CurlClient
 {
     const DEFAULT_CONNECT_TIMEOUT_MS = 500;
 

@@ -1,17 +1,17 @@
 <?php
 /**
- * Base Model
+ * Model
  *
  * @package SPF.Database
  * @author  XiaodongPan
- * @version $Id: BaseModel.php 2017-04-12 $
+ * @version $Id: Model.php 2017-04-12 $
  */
 namespace SPF\Database;
 
 use SPF;
-use SPF\Database\Db;
+use SPF\Database\Factory as DbFactory;
 
-abstract class BaseModel
+abstract class Model
 {
     const DEFAULT_LIMIT = 500;
 
@@ -72,12 +72,12 @@ abstract class BaseModel
      * 获取table名称
      *
      * @return table名称
-     * @throws \SPF\Database\Exception
+     * @throws DatabaseException
      */
     public function tableName()
     {
         if($this->sharding === true && $this->factor === '') {
-            throw new Exception('sharding table changeFactor first');
+            throw new DatabaseException('sharding table changeFactor first');
         }
         return $this->tableName;
     }
@@ -87,15 +87,15 @@ abstract class BaseModel
      *
      * @param bool|false $alwaysMaster
      * @return mixed
-     * @throws \SPF\Database\Exception
+     * @throws DatabaseException
      */
     public function getDb($alwaysMaster = false)
     {
         if($this->sharding === true && $this->factor === '') {
-            throw new Exception('sharding table changeFactor first');
+            throw new DatabaseException('sharding table changeFactor first');
         }
         $config = SPF::App()->getConfig('db_'.$this->dbName, 'server');
-        return Db::getInstance($config, $alwaysMaster);
+        return DbFactory::getInstance($config, $alwaysMaster);
     }
 
     /**
@@ -103,7 +103,7 @@ abstract class BaseModel
      *
      * @param $id
      * @return mixed
-     * @throws \SPF\Database\Exception
+     * @throws DatabaseException
      */
     public function findById($id)
     {
@@ -119,7 +119,7 @@ abstract class BaseModel
      * @param array $ids
      * @param bool|false $idKey key是否转换成主键
      * @return array
-     * @throws \SPF\Database\Exception
+     * @throws DatabaseException
      */
     public function findByIds(array $ids, $key2id = true)
     {

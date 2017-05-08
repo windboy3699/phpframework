@@ -8,9 +8,9 @@
  */
 namespace App\Model;
 
-use SPF\Database\BaseModel;
+use SPF\Database\Model;
 
-class SystemUserModel extends BaseModel
+class SystemUserModel extends Model
 {
     protected $dbName = 'shop';
 
