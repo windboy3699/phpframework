@@ -107,10 +107,3 @@ class SPF
         ];
     }
 }
-
-function p($var)
-{
-    echo '<pre>';
-    print_r($var);
-    exit;
-}
