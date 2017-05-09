@@ -22,6 +22,6 @@ class IndexController extends Controller
         $log->addWarning('Foo');
         $log->addError('Bar');*/
 
-        $this->showResult(0, 'ok');
+        $this->render('index.html');
     }
 }
