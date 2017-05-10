@@ -16,6 +16,16 @@ use SPF\Http\Request;
 class WebApplication extends Application
 {
     /**
+     * @const string
+     */
+    const ROUTE_MODE_MAP = 'map';
+
+    /**
+     * @const string
+     */
+    const ROUTE_MODE_RULE = 'rule';
+
+    /**
      * @var MapRouter | RuleRouter
      */
     private $router;
@@ -28,16 +38,22 @@ class WebApplication extends Application
     /**
      * @var string value:map|rule
      */
-    private $routeMode = 'map';
+    private $routeMode = self::ROUTE_MODE_MAP;
 
     /**
-     * 设置路由模式
-     *
-     * @param $mode
+     * 设置Map路由模式
      */
-    public function setRouteMode($mode)
+    public function setRouteModeMap()
     {
-        $this->routeMode = $mode == 'map' ? 'map' : 'rule';
+        $this->routeMode = self::ROUTE_MODE_MAP;
+    }
+
+    /**
+     * 设置Rule路由模式
+     */
+    public function setRouteModeRule()
+    {
+        $this->routeMode = self::ROUTE_MODE_RULE;
     }
 
     /**
@@ -123,11 +139,11 @@ class WebApplication extends Application
         if (!empty($this->router)) {
             return $this->router;
         }
-        if ($this->routeMode == 'map') {
+        if ($this->routeMode == self::ROUTE_MODE_MAP) {
             $this->router = new MapRouter();
             $this->router->setMappings($this->getConfig('mappings', 'route', []));
             $this->router->parse();
-        } elseif ($this->routeMode == 'rule') {
+        } elseif ($this->routeMode == self::ROUTE_MODE_RULE) {
             $this->router = new RuleRouter();
             $this->router->parse();
         }

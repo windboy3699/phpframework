@@ -33,7 +33,7 @@ $configPaths = [
 
 SPF\SPF::registerAutoloader($autoloadPsr4);
 $app = SPF\SPF::createWebApplication();
-$app->setRouteMode('rule');
+$app->setRouteModeRule();
 $app->setConfigPaths($configPaths);
 SPF\Session\Session::start([], 'redis', $app->getRedis());
 $app->run();
