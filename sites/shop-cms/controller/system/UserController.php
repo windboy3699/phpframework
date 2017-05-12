@@ -67,6 +67,7 @@ class UserController extends Controller
         ];
         $password && $data['password'] = md5($password);
         if (empty($id)) {
+            $data['add_user'] = $_SESSION['system_username'];
             $data['create_time'] = date("Y-m-d H:i:s");
         }
         $model = new SystemUserModel();

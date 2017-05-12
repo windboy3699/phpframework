@@ -8,7 +8,7 @@
  */
 namespace App\Model;
 
-use SPF\Database\Model;
+use SPF\Db\Model;
 
 class SystemGroupModel extends Model
 {

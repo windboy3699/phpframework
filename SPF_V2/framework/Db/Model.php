@@ -2,14 +2,14 @@
 /**
  * Model
  *
- * @package SPF.Database
+ * @package SPF.Db
  * @author  XiaodongPan
  * @version $Id: Model.php 2017-04-12 $
  */
-namespace SPF\Database;
+namespace SPF\Db;
 
 use SPF\SPF;
-use SPF\Database\Factory as DbFactory;
+use SPF\Db\Factory as DbFactory;
 
 abstract class Model
 {
@@ -72,12 +72,12 @@ abstract class Model
      * 获取table名称
      *
      * @return table名称
-     * @throws DatabaseException
+     * @throws DbException
      */
     public function tableName()
     {
         if($this->sharding === true && $this->factor === '') {
-            throw new DatabaseException('sharding table changeFactor first');
+            throw new DbException('sharding table changeFactor first');
         }
         return $this->tableName;
     }
@@ -87,12 +87,12 @@ abstract class Model
      *
      * @param bool|false $alwaysMaster
      * @return mixed
-     * @throws DatabaseException
+     * @throws DbException
      */
     public function getDb($alwaysMaster = false)
     {
         if($this->sharding === true && $this->factor === '') {
-            throw new DatabaseException('sharding table changeFactor first');
+            throw new DbException('sharding table changeFactor first');
         }
         $config = SPF::App()->getConfig('db_'.$this->dbName, 'server');
         return DbFactory::getInstance($config, $alwaysMaster);
@@ -103,7 +103,7 @@ abstract class Model
      *
      * @param $id
      * @return mixed
-     * @throws DatabaseException
+     * @throws DbException
      */
     public function findById($id)
     {
@@ -119,7 +119,7 @@ abstract class Model
      * @param array $ids
      * @param bool|false $idKey key是否转换成主键
      * @return array
-     * @throws DatabaseException
+     * @throws DbException
      */
     public function findByIds(array $ids, $key2id = true)
     {

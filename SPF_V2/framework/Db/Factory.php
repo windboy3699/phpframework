@@ -1,16 +1,15 @@
 <?php
 /**
- * DbFactory
+ * Factory
  *
- * @package SPF.Database
+ * @package SPF.Db
  * @author  XiaodongPan
  * @version $Id: Factory.php 2017-04-12 $
  */
-namespace SPF\Database;
+namespace SPF\Db;
 
 use PDO;
 use Medoo;
-use SPF\Database\Factory as DbFactory;
 
 require_once dirname(dirname(dirname(__FILE__))) . '/lib/Medoo/Medoo.php';
 
@@ -47,7 +46,7 @@ class Factory
     public function __construct($config, $alwaysMaster = false)
     {
         if (empty($config['master']) || empty($config['slave'])) {
-            throw new DatabaseException('数据库配置错误');
+            throw new DbException('数据库配置错误');
         }
 
         $this->config['master'] = array_merge($this->options, $config['master']);
@@ -71,7 +70,7 @@ class Factory
         $dbname = $config['master']['database_name'];
         $key = $alwaysMaster ? $dbname . '1' : $dbname . '0';
         if (!isset($dbs[$key])) {
-            self::$dbs[$key] = new DbFactory($config, $alwaysMaster);
+            self::$dbs[$key] = new Factory($config, $alwaysMaster);
         }
         return self::$dbs[$key];
     }

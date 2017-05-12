@@ -9,7 +9,7 @@
 namespace SPF\Application;
 
 use SPF\Config\Repository as ConfigRepository;
-use SPF\Database\Factory as DbFactory;
+use SPF\Db\Factory as DbFactory;
 use SPF\Cache\Memcache;
 use SPF\Cache\Redis;
 
@@ -57,7 +57,7 @@ class Application
      * @param $dbname
      * @param bool|false $alwaysMaster
      * @return mixed
-     * @throws \SPF\Database\Exception
+     * @throws \SPF\Db\Exception
      */
     public function getDb($dbname, $alwaysMaster = false)
     {
