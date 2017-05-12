@@ -10,7 +10,7 @@ namespace SPF\Application;
 
 use SPF\Routing\MapRouter;
 use SPF\Routing\RuleRouter;
-use SPF\Interception\Interceptor;
+use SPF\Intercept\Interceptor;
 use SPF\Http\Request;
 
 class WebApplication extends Application

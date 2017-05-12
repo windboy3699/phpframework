@@ -2,11 +2,11 @@
 /**
  * 拦截器模版
  *
- * @package SPF.Interception
+ * @package SPF.Intercept
  * @author  XiaodongPan
  * @version $Id: Interceptor.php 2017-04-12 $
  */
-namespace SPF\Interception;
+namespace SPF\Intercept;
 
 class Interceptor
 {
