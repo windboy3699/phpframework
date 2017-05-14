@@ -8,6 +8,7 @@
  */
 namespace App\Category;
 
+use SPF\SPF;
 use App\AbstractJob;
 
 class UpdateJob extends AbstractJob
@@ -24,6 +25,9 @@ class UpdateJob extends AbstractJob
     {
         echo $this->getCommendArg('id') . "\n";
         echo $this->getCommendArg('name') . "\n";
-        echo "hello job\n";
+
+        $redis = SPF::app()->getRedis();
+        $redis->set('test', 'what are you donging?');
+        echo $redis->get('test') . "\n";exit;
     }
 }

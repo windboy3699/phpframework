@@ -59,7 +59,7 @@ abstract class Controller
     public function getView()
     {
         if ($this->view === null) {
-            $this->view = View::create(APP_PATH . '/view/');
+            $this->view = View::create(SPF::app()->getAppPath() . '/view/');
         }
         return $this->view;
     }
