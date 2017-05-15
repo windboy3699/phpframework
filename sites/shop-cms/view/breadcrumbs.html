@@ -1,6 +1,6 @@
-{% if breadcrumbs %}
+{% if breadCrumbs %}
 <small>
-    {% for bread in breadcrumbs %}
+    {% for bread in breadCrumbs %}
     {% if bread.link %}
     <a href="{{bread.link}}">{{bread.name}}</a> {% if loop.last == false %}>{% endif %}
     {% else %}

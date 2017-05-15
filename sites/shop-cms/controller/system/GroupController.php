@@ -18,14 +18,14 @@ class GroupController extends Controller
     {
         $model = new SystemGroupModel();
         $this->out['groups'] = $model->getAllGroups();
-        $this->out['breadcrumbs'] = $this->getBreadCrumbs('index');
+        $this->out['breadCrumbs'] = $this->getBreadCrumbs('index');
         $this->render('system/group.html');
     }
 
     public function addAction()
     {
-        $this->out['levelmenus'] = $this->getLevleMenus();
-        $this->out['breadcrumbs'] = $this->getBreadCrumbs('add');
+        $this->out['levelMenus'] = $this->getLevleMenus();
+        $this->out['breadCrumbs'] = $this->getBreadCrumbs('add');
         $this->render('system/group_edit.html');
     }
 
@@ -38,8 +38,8 @@ class GroupController extends Controller
 
         $this->out['group'] = $group;
         $this->out['menus'] = explode(',', $group['menus']);
-        $this->out['levelmenus'] = $this->getLevleMenus();
-        $this->out['breadcrumbs'] = $this->getBreadCrumbs('edit');
+        $this->out['levelMenus'] = $this->getLevleMenus();
+        $this->out['breadCrumbs'] = $this->getBreadCrumbs('edit');
         $this->render('system/group_edit.html');
     }
 
@@ -67,24 +67,24 @@ class GroupController extends Controller
     private function getLevleMenus()
     {
         $menuModel = new SystemMenuModel();
-        $menusdata = $menuModel->getAllMenus();
-        $menusbykey = $levelmenus = [];
-        foreach ($menusdata as $item) {
-            $menusbykey[$item['id']] = $item;
+        $menusData = $menuModel->getAllMenus();
+        $menusBykey = $levelMenus = [];
+        foreach ($menusData as $item) {
+            $menusBykey[$item['id']] = $item;
         }
-        foreach ($menusdata as $item) {
+        foreach ($menusData as $item) {
             if ($item['level'] == 1) {
-                $levelmenus[$item['id']]['menu'] = $item;
+                $levelMenus[$item['id']]['menu'] = $item;
             }
             if ($item['level'] == 2) {
-                $levelmenus[$item['topid']]['submenus'][$item['id']]['menu'] = $item;
+                $levelMenus[$item['topid']]['submenus'][$item['id']]['menu'] = $item;
             }
             if ($item['level'] == 3) {
-                $topMenu = $menusbykey[$item['topid']];
-                $levelmenus[$topMenu['topid']]['submenus'][$item['topid']]['submenus'][$item['id']]['menu'] = $item;
+                $topMenu = $menusBykey[$item['topid']];
+                $levelMenus[$topMenu['topid']]['submenus'][$item['topid']]['submenus'][$item['id']]['menu'] = $item;
             }
         }
-        return $levelmenus;
+        return $levelMenus;
     }
 
     private function getBreadCrumbs($action)

@@ -45,7 +45,7 @@
                     <li class="dropdown user user-menu">
                         <a class="dropdown-toggle">
                             <img src="{{static}}/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-                            <span class="hidden-xs">{{system_realname}} | {{system_group_name}}</span>
+                            <span class="hidden-xs">{{systemRealname}} | {{systemGroupName}}</span>
                         </a>
                     </li>
                     <!-- Control Sidebar Toggle Button -->
@@ -64,8 +64,8 @@
             <ul class="sidebar-menu">
                 <li class="header">MAIN NAVIGATION</li>
 
-                {% if leftmenus %}
-                {% for level1 in leftmenus %}
+                {% if leftMenus %}
+                {% for level1 in leftMenus %}
                 <li class="treeview {% if level1.menu.active == 1 %}active{% endif %}">
                     <a href="{{level1.menu.link|default('javascript:void(0);')}}">
                         <i class="fa fa-table"></i> <span>{{level1.menu.name}}</span>

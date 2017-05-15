@@ -29,10 +29,10 @@ class LoginController extends Controller
         }
         $groupModel = new SystemGroupModel();
         $group = $groupModel->findById($user['group_id']);
-        $_SESSION['system_username'] = $user['username'];
-        $_SESSION['system_realname'] = $user['realname'];
-        $_SESSION['system_group_id'] = $user['group_id'];
-        $_SESSION['system_group_name'] = $group['name'];
+        $_SESSION['systemUsername'] = $user['username'];
+        $_SESSION['systemRealname'] = $user['realname'];
+        $_SESSION['systemGroupId'] = $user['group_id'];
+        $_SESSION['systemGroupName'] = $group['name'];
         $this->showResult(0, '');
     }
 

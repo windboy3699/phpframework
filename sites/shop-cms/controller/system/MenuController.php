@@ -28,7 +28,7 @@ class MenuController extends Controller
         $this->out['menus'] = $menus;
         $this->out['topid'] = $topid;
         $this->out['addmenu'] = $addmenu;
-        $this->out['breadcrumbs'] = $this->getBreadCrumbs('index');
+        $this->out['breadCrumbs'] = $this->getBreadCrumbs('index');
         $this->render('system/menu.html');
     }
 
@@ -38,7 +38,7 @@ class MenuController extends Controller
         $this->out['menu']['topid'] = $topid;
         $this->out['menu']['sort'] = 100;
         $this->out['menu']['visible'] = 1;
-        $this->out['breadcrumbs'] = $this->getBreadCrumbs('add');
+        $this->out['breadCrumbs'] = $this->getBreadCrumbs('add');
         $this->render('system/menu_edit.html');
     }
 
@@ -48,7 +48,7 @@ class MenuController extends Controller
         $model = new SystemMenuModel();
         $menu = $model->findById($id);
         $this->out['menu'] = $menu;
-        $this->out['breadcrumbs'] = $this->getBreadCrumbs('edit');
+        $this->out['breadCrumbs'] = $this->getBreadCrumbs('edit');
         $this->render('system/menu_edit.html');
     }
 

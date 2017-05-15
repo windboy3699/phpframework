@@ -35,12 +35,12 @@ abstract class Controller extends BaseController
     private function setCommonOuts()
     {
         $systemService = new SystemService();
-        $leftmenus = $systemService->getUserMenusByGroupId($_SESSION['system_group_id']);
-        $this->out['leftmenus'] = $leftmenus;
-        $this->out['system_realname'] = $_SESSION['system_realname'] ? $_SESSION['system_realname'] : '';
-        $this->out['system_group_name'] = $_SESSION['system_group_name'] ? $_SESSION['system_group_name'] : '';
-        $this->out['breadcrumbs'] = [];
-        $this->out['static'] = $this->app->getConfig('static_base_url');
+        $leftMenus = $systemService->getUserMenusByGroupId($_SESSION['systemGroupId']);
+        $this->out['leftMenus'] = $leftMenus;
+        $this->out['systemRealname'] = $_SESSION['systemRealname'] ? $_SESSION['systemRealname'] : '';
+        $this->out['systemGroupName'] = $_SESSION['systemGroupName'] ? $_SESSION['systemGroupName'] : '';
+        $this->out['breadCrumbs'] = [];
+        $this->out['static'] = $this->app->getConfig('baseStaticUrl');
         $this->out['cururl'] = $this->request->getCurUrl();
         $this->out['referer'] = $_SERVER['HTTP_REFERER'];
     }

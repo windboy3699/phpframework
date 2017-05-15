@@ -38,7 +38,7 @@
                             <label class="col-sm-2 control-label">菜单</label>
 
                             <div class="col-sm-10">
-                                {% for level1 in levelmenus %}
+                                {% for level1 in levelMenus %}
                                     <div style="margin-bottom: 7px;">{{level1.menu.name}} {% if level1.menu.link %}<input type="checkbox" name="menus[]" value="{{level1.menu.id}}" {% if level1.menu.id in menus %}checked{% endif %}>{% endif %}</div>
                                     {% for level2 in level1.submenus %}
                                         <div style="margin-left: 40px; margin-bottom: 7px;">{{level2.menu.name}} {% if level2.menu.link %}<input type="checkbox" name="menus[]" value="{{level2.menu.id}}" {% if level2.menu.id in menus %}checked{% endif %}>{% endif %}</div>

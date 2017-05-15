@@ -17,10 +17,10 @@ class AuthorizeInterceptor extends Interceptor
 {
     public function before()
     {
-        if (empty($_SESSION['system_username'])) {
+        if (empty($_SESSION['systemUsername'])) {
             $this->jump('/login/');
         }
-        $groupId = $_SESSION['system_group_id'];
+        $groupId = $_SESSION['systemGroupId'];
         //group_id=1默认为超级管理员
         if ($groupId == 1) {
             return Interceptor::STEP_CONTINUE;
