@@ -9,7 +9,7 @@
 namespace App\Interceptor;
 
 use SPF\SPF;
-use SPF\Intercept\Interceptor;
+use SPF\Interceptor\Interceptor;
 use App\Model\SystemGroupModel;
 use App\Model\SystemMenuModel;
 

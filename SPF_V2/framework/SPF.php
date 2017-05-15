@@ -10,7 +10,7 @@ namespace SPF;
 
 use SPF\Routing\MapRouter;
 use SPF\Routing\RuleRouter;
-use SPF\Intercept\Interceptor;
+use SPF\Interceptor\Interceptor;
 use SPF\Http\Request;
 use SPF\Config\Repository as ConfigRepository;
 use SPF\Db\Factory as DbFactory;
