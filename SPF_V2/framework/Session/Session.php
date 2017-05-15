@@ -75,7 +75,7 @@ class Session
      */
     public static function setSaveHandler($handlerType, CacheInterface $storge)
     {
-        $className = 'SPF\\Session\\Handler\\' . ucfirst(strtolower($handlerType)) . 'Handler';
+        $className = 'SPF\\Session\\' . ucfirst(strtolower($handlerType)) . 'Handler';
         $handler = new $className($storge);
         session_set_save_handler(
             array(&$handler, 'open'),

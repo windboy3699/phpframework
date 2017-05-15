@@ -62,11 +62,15 @@ class SPF
     private $routeMode;
 
     /**
+     * 路由器
+     *
      * @var MapRouter|RuleRouter
      */
     private $router;
 
     /**
+     * 请求组件
+     *
      * @var Request
      */
     private $request;
@@ -76,7 +80,7 @@ class SPF
      *
      * @var array
      */
-    protected $components = [];
+    private $components = [];
 
     /**
      * SPF constructor.

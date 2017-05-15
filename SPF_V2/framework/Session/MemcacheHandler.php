@@ -1,27 +1,29 @@
 <?php
 /**
- * RedisHandler
+ * Memcache Handler
  *
- * @package SPF.Session.Handler
+ * @package SPF.Session
  * @author  XiaodongPan
- * @version $Id: RedisHandler.php 2017-04-12 $
+ * @version $Id: MemcacheHandler.php 2017-04-12 $
  */
-namespace SPF\Session\Handler;
+namespace SPF\Session;
 
-use SPF\Cache\Redis;
+use SPF\Cache\Memcache;
 
-class RedisHandler implements HandlerInterface
+class MemcacheHandler implements HandlerInterface
 {
     /**
-     * @var Redis
+     * @var Memcache
      */
-    private $redis;
+    private $memcache;
 
     private $lifetime = 1440;
 
-    public function __construct(Redis $redis)
+    public function __construct(Memcache $memcache)
     {
-        $this->redis = $redis;
+        if ($this->memcache === null) {
+            $this->memcache = $memcache;
+        }
         $this->lifetime = (int)ini_get('session.gc_maxlifetime');
     }
 
@@ -37,18 +39,18 @@ class RedisHandler implements HandlerInterface
 
     public function read($id)
     {
-        return $this->redis->get($id);
+        return $this->memcache->get($id);
     }
 
     public function write($id, $data)
     {
-        $this->redis->set($id, $data, $this->lifetime);
+        $this->memcache->set($id, $data, $this->lifetime);
         return true;
     }
 
     public function destroy($id)
     {
-        $this->redis->delete($id);
+        $this->memcache->delete($id);
         return true;
     }
 

@@ -2,11 +2,11 @@
 /**
  * Handler Interface
  *
- * @package SPF.Session.Handler
+ * @package SPF.Session
  * @author  XiaodongPan
  * @version $Id: HandlerInterface.php 2017-04-12 $
  */
-namespace SPF\Session\Handler;
+namespace SPF\Session;
 
 interface HandlerInterface
 {
