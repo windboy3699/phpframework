@@ -14,7 +14,7 @@ use SPF\View\View;
 abstract class Controller
 {
     /**
-     * @var \SPF\Application\WebApplication
+     * @var SPF
      */
     protected $app;
 
@@ -29,7 +29,9 @@ abstract class Controller
     protected $view = null;
 
     /**
-     * @var 模板输出变量
+     * 模板输出变量
+     *
+     * @var array
      */
     protected $out = [];
 
