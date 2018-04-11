@@ -1,8 +1,0 @@
-{
-  "require":{
-    "illuminate/database": "5.3.*",
-    "illuminate/view": "5.3.*",
-    "catfan/medoo": "1.1.*",
-    "twig/twig": "1.27.*"
-  }
-}
