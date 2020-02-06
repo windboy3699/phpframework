@@ -6,7 +6,7 @@
  * @author  XiaodongPan
  * @version $Id: AbstractJob.php 2017-04-21 $
  */
-namespace App;
+namespace Shop\Job;
 
 abstract class AbstractJob
 {

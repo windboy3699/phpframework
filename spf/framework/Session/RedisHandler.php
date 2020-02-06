@@ -37,7 +37,7 @@ class RedisHandler implements HandlerInterface
 
     public function read($id)
     {
-        return $this->redis->get($id);
+        return serialize($this->redis->get($id));
     }
 
     public function write($id, $data)

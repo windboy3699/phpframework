@@ -4,14 +4,14 @@
  *
  * @package
  * @author  XiaodongPan
- * @version $Id: UpdateJob.php 2017-04-21 $
+ * @version $Id: UpdateCacheJob.php 2017-04-21 $
  */
-namespace App\Category;
+namespace Shop\Job;
 
 use SPF\SPF;
-use App\AbstractJob;
+use Shop\Job\AbstractJob;
 
-class UpdateJob extends AbstractJob
+class UpdateCacheJob extends AbstractJob
 {
     public function getOptArgs()
     {

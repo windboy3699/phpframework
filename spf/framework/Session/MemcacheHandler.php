@@ -39,7 +39,7 @@ class MemcacheHandler implements HandlerInterface
 
     public function read($id)
     {
-        return $this->memcache->get($id);
+        return serialize($this->memcache->get($id));
     }
 
     public function write($id, $data)
