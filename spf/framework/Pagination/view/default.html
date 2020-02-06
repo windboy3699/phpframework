@@ -1,0 +1,17 @@
+<ul class="pagination pagination-sm no-margin pull-right">
+    {% if first_page_url %}
+    <li><a href="{{first_page_url}}">首页</a></li>
+    {% endif %}
+    {% if prev_page_url %}
+    <li><a href="{{prev_page_url}}">上一页</a></li>
+    {% endif %}
+    {% for item in list_page_url %}
+    <li {% if item.active == 1 %}class="active"{% endif %}><a href="{{item.url}}">{{item.num}}</a></li>
+    {% endfor %}
+    {% if next_page_url %}
+    <li><a href="{{next_page_url}}">下一页</a></li>
+    {% endif %}
+    {% if last_page_url %}
+    <li><a href="{{last_page_url}}">尾页</a></li>
+    {% endif %}
+</ul>
