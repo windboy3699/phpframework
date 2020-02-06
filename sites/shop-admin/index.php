@@ -4,9 +4,8 @@
  *
  * @package
  * @author  XiaodongPan
- * @version $Id: index.php 2017-04-21 $
+ * @version $Id: index.php 2017-04-24 $
  */
-
 error_reporting(E_ALL & ~E_NOTICE);
 
 ini_set('magic_quotes_runtime', 0);
@@ -17,16 +16,5 @@ $config = require_once dirname(__FILE__).'/config/main.php';
 
 $app = SPF\SPF::create($config);
 $app->registerAutoloader();
-
-$opts = getopt('', array(
-    'class:'
-));
-
-$runClass = $opts['class'];
-
-if (!class_exists($runClass)) {
-    exit("$runclass is not exists\n");
-}
-
-$runner = new $runClass();
-$runner->run();
+SPF\Session\Session::start([], 'redis', $app->getRedis());
+$app->run();
