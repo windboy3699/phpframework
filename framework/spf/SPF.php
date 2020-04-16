@@ -27,18 +27,17 @@ class SPF
     private static $app;
 
     /**
-     * SPF路径
-     *
-     * @var string
-     */
-    private $spfPath;
-
-    /**
      * App路径
      *
      * @var string
      */
     private $appPath;
+
+    /**
+     * 应用命名空间
+     * @var string
+     */
+    private $appNamespace;
 
     /**
      * 自动加载类的目录
@@ -60,12 +59,6 @@ class SPF
      * @var string
      */
     private $routeMode;
-
-    /**
-     * 控制器路径
-     * @var string
-     */
-    private $controllerNamespace;
 
     /**
      * 路由器
@@ -96,14 +89,10 @@ class SPF
     private function __construct($configure)
     {
         $this->appPath = $configure['appPath'];
+        $this->appNamespace = $configure['appNamespace'];
         $this->autoloadPaths = $configure['autoloadPaths'];
         $this->loadConfigPaths = $configure['loadConfigPaths'];
-        if (isset($configure['routeMode'])) {
-            $this->routeMode = $configure['routeMode'];
-        }
-        if (isset($configure['controllerNamespace'])) {
-            $this->controllerNamespace = $configure['controllerNamespace'];
-        }
+        $this->routeMode = $configure['routeMode'];
     }
 
     /**
@@ -220,13 +209,13 @@ class SPF
         if (!empty($this->router)) {
             return $this->router;
         }
-        if ($this->routeMode == 'map') {
+        if ($this->routeMode == 'mapping') {
             $this->router = new MappingRouter();
             $this->router->setMappings($this->getConfig('mappings', 'route', []));
             $this->router->parse();
         } else {
             $this->router = new GeneralRouter();
-            $this->router->setControllerNamespace($this->controllerNamespace);
+            $this->router->setAppNamespace($this->appNamespace);
             $this->router->parse();
         }
         return $this->router;
@@ -319,14 +308,14 @@ class SPF
      */
     public function autoload($className)
     {
-        $className = ltrim($className, "\\");
+        $className = ltrim($className, '\\');
         $loadPaths = $this->autoloadPaths;
-        $lastDsPos = strrpos($className, "\\");
+        $lastDsPos = strrpos($className, '\\');
         if ($lastDsPos !== false) {
             $relatNs = substr($className, 0, $lastDsPos);
             $relatNs = strtolower($relatNs);
             $lastName = substr($className, $lastDsPos + 1);
-            $fileName  = str_replace("\\", DIRECTORY_SEPARATOR, $relatNs) . DIRECTORY_SEPARATOR . $lastName . '.php';
+            $fileName  = str_replace('\\', DIRECTORY_SEPARATOR, $relatNs) . DIRECTORY_SEPARATOR . $lastName . '.php';
         } else {
             $fileName = $className . '.php';
         }
@@ -335,9 +324,8 @@ class SPF
             if (is_file($classFile)) {
                 require_once $classFile;
                 return true;
-            } else {
-                return false;
             }
+            return false;
         }
         foreach ($this->libAutoloadPaths() as $name => $path) {
             if (preg_match('/^' . addslashes($name) . '/', $className)) {
@@ -345,9 +333,8 @@ class SPF
                 if (is_file($classFile)) {
                     require_once $classFile;
                     return true;
-                } else {
-                    return false;
                 }
+                return false;
             }
         }
         foreach ($loadPaths as $path) {

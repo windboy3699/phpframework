@@ -13,16 +13,11 @@ class GeneralRouter extends Router
     const DEFAULT_CONTROLLER = 'Index';
     const DEFAULT_ACTION = 'index';
 
-    private $controllerNamespace;
+    private $appNamespace;
 
-    public function setControllerNamespace($space)
+    public function setAppNamespace($space)
     {
-        $this->controllerNamespace = $space;
-    }
-
-    public function getcontrollerNamespace()
-    {
-        return $this->controllerNamespace;
+        $this->appNamespace = $space;
     }
 
     /**
@@ -86,6 +81,6 @@ class GeneralRouter extends Router
      */
     public function buildController(array $segs)
     {
-        return $this->controllerNamespace . '\\' . implode($segs, '\\') . 'Controller';
+        return $this->appNamespace . '\\' . implode($segs, '\\') . 'Controller';
     }
 }

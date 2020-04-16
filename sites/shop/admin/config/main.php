@@ -8,10 +8,11 @@ $sitesPath = dirname(dirname(dirname(__FILE__)));
 return [
     'appPath' => dirname(__FILE__) . '/..',
 
+    'appNamespace' => 'shop\\admin',
+
     'autoloadPaths' => [
         $basePath . '/classes',
         $basePath . '/admin/controller',
-        $basePath . '/job/classes',
     ],
 
     'loadConfigPaths' => [
@@ -20,5 +21,4 @@ return [
     ],
 
     'routeMode' => 'general',
-    'controllerNamespace' => 'shop\\admin',
 ];
