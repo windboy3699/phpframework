@@ -19,6 +19,6 @@ return [
         $basePath . '/config',
     ],
 
-    'routeMode' => 'rule',
+    'routeMode' => 'general',
     'controllerNamespace' => 'shop\\admin',
 ];

@@ -4,11 +4,11 @@
  *
  * @package SPF.Routing
  * @author  XiaodongPan
- * @version $Id: MapRouter.php 2017-04-18 $
+ * @version $Id: MappingRouter.php 2017-04-18 $
  */
 namespace spf\routing;
 
-class MapRouter extends Router
+class MappingRouter extends Router
 {
     /**
      * @const string

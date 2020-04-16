@@ -4,11 +4,11 @@
  *
  * @package SPF.Routing
  * @author  XiaodongPan
- * @version $Id: RuleRouter.php 2017-04-18 $
+ * @version $Id: GeneralRouter.php 2017-04-18 $
  */
 namespace spf\routing;
 
-class RuleRouter extends Router
+class GeneralRouter extends Router
 {
     const DEFAULT_CONTROLLER = 'Index';
     const DEFAULT_ACTION = 'index';

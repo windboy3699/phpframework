@@ -8,8 +8,8 @@
  */
 namespace spf;
 
-use spf\routing\MapRouter;
-use spf\routing\RuleRouter;
+use spf\routing\MappingRouter;
+use spf\routing\GeneralRouter;
 use spf\interceptor\Interceptor;
 use spf\http\Request;
 use spf\config\Repository as ConfigRepository;
@@ -70,7 +70,7 @@ class SPF
     /**
      * 路由器
      *
-     * @var MapRouter|RuleRouter
+     * @var GeneralRouter|MappingRouter
      */
     private $router;
 
@@ -221,11 +221,11 @@ class SPF
             return $this->router;
         }
         if ($this->routeMode == 'map') {
-            $this->router = new MapRouter();
+            $this->router = new MappingRouter();
             $this->router->setMappings($this->getConfig('mappings', 'route', []));
             $this->router->parse();
-        } elseif ($this->routeMode == 'rule' || empty($this->routeMode)) {
-            $this->router = new RuleRouter();
+        } else {
+            $this->router = new GeneralRouter();
             $this->router->setControllerNamespace($this->controllerNamespace);
             $this->router->parse();
         }
