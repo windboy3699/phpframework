@@ -10,15 +10,8 @@ namespace spf\routing;
 
 class GeneralRouter extends Router
 {
-    const DEFAULT_CONTROLLER = 'Index';
-    const DEFAULT_ACTION = 'index';
-
-    private $appNamespace;
-
-    public function setAppNamespace($space)
-    {
-        $this->appNamespace = $space;
-    }
+    private $defaultController = 'Index';
+    private $defaultAction = 'index';
 
     /**
      * path按/controller/action解析
@@ -30,8 +23,8 @@ class GeneralRouter extends Router
         $path = $this->getPath();
 
         if (empty($path)) {
-            $this->controller = $this->buildController([self::DEFAULT_CONTROLLER]);
-            $this->action = self::DEFAULT_ACTION . 'Action';
+            $this->controller = $this->buildController([$this->defaultController]);
+            $this->action = $this->defaultAction . 'Action';
             if (method_exists($this->controller, $this->action)) {
                 return true;
             }
@@ -44,7 +37,7 @@ class GeneralRouter extends Router
         if ($count == 1) {
             $pathSegs[0] = ucfirst($pathArray[0]);
             $this->controller = $this->buildController($pathSegs);
-            $this->action = self::DEFAULT_ACTION . 'Action';
+            $this->action = $this->defaultAction . 'Action';
             if (method_exists($this->controller, $this->action)) {
                 return true;
             }
@@ -65,7 +58,7 @@ class GeneralRouter extends Router
             $pathSegs[$key] = ucfirst($val);
         }
         $this->controller = $this->buildController($pathSegs);
-        $this->action = self::DEFAULT_ACTION . 'Action';
+        $this->action = $this->defaultAction . 'Action';
         if (method_exists($this->controller, $this->action)) {
             return true;
         }

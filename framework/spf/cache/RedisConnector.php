@@ -40,7 +40,7 @@ class RedisConnector
 
     public function delete($key)
     {
-        return $this->redis->delete($key);
+        return $this->redis->del($key);
     }
 
     public function __call($method, array $args)

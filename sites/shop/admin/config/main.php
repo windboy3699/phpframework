@@ -8,7 +8,7 @@ $sitesPath = dirname(dirname(dirname(__FILE__)));
 return [
     'appPath' => dirname(__FILE__) . '/..',
 
-    'appNamespace' => 'shop\\admin',
+    'appNamespace' => 'shop\admin',
 
     'autoloadPaths' => [
         $basePath . '/classes',
@@ -20,5 +20,5 @@ return [
         $basePath . '/config',
     ],
 
-    'routeMode' => 'general',
+    'routeMode' => 'general', //general|mapping
 ];

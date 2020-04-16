@@ -1,8 +1,9 @@
 <?php
 return [
     'mappings' => [
-        'shop\admin\IndexController' => ['^$'],
-        'shop\admin\LoginController' => ['^login$'],
-        'shop\admin\LoginController::checkAction' => ['^login\/check$'],
+        'IndexController' => ['^$'],
+        'LoginController' => ['^login$'],
+        'LoginController::checkAction' => ['^login\/check$'],
+        'System\UserController' => ['^system\/user$'],
     ]
 ];

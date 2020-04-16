@@ -210,12 +210,11 @@ class SPF
             return $this->router;
         }
         if ($this->routeMode == 'mapping') {
-            $this->router = new MappingRouter();
+            $this->router = new MappingRouter($this->appNamespace);
             $this->router->setMappings($this->getConfig('mappings', 'route', []));
             $this->router->parse();
         } else {
-            $this->router = new GeneralRouter();
-            $this->router->setAppNamespace($this->appNamespace);
+            $this->router = new GeneralRouter($this->appNamespace);
             $this->router->parse();
         }
         return $this->router;

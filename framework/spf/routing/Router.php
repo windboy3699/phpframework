@@ -28,12 +28,26 @@ abstract class Router
     /**
      * @var string
      */
+    protected $appNamespace;
+
+    /**
+     * @var string
+     */
     protected $errorRedirect = '';
 
     /**
      * @return mixed
      */
     abstract public function parse();
+
+    /**
+     * Router constructor.
+     * @param $namespace
+     */
+    public function __construct($namespace)
+    {
+        $this->appNamespace = $namespace;
+    }
 
     /**
      * 获取Controller

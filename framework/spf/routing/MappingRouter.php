@@ -16,9 +16,9 @@ class MappingRouter extends Router
     const SEPARATE = '::';
 
     /**
-     * @const string
+     * @var string
      */
-    const DEFAULT_ACTION = 'indexAction';
+    private $defaultAction = 'indexAction';
 
     /**
      * @var array
@@ -33,7 +33,7 @@ class MappingRouter extends Router
     /**
      * @var string
      */
-    protected $action = self::DEFAULT_ACTION;
+    protected $action;
 
     /**
      * set mappings
@@ -57,9 +57,10 @@ class MappingRouter extends Router
             foreach ($patterns as $pattern) {
                 if (preg_match('/' . $pattern . '/', $path, $matches)) {
                     $this->matches = $matches;
-                    $segs = explode(self::SEPARATE, $method);
+                    $fullMethod = $this->appNamespace . '\\' . $method;
+                    $segs = explode(self::SEPARATE, $fullMethod);
                     $controllerName = $segs[0];
-                    $actionName = $segs[1] ? $segs[1] : self::DEFAULT_ACTION;
+                    $actionName = $segs[1] ? $segs[1] : $this->defaultAction;
                     if (class_exists($controllerName)) {
                         $this->controller = $controllerName;
                         $this->action = $actionName;
