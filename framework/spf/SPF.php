@@ -8,8 +8,8 @@
  */
 namespace spf;
 
-use spf\routing\MappingRouter;
 use spf\routing\GeneralRouter;
+use spf\routing\MappingRouter;
 use spf\interceptor\Interceptor;
 use spf\http\Request;
 use spf\config\Repository as ConfigRepository;
@@ -54,7 +54,7 @@ class SPF
     private $loadConfigPaths = [];
 
     /**
-     * 路由模式 map|rule
+     * 路由模式 general|mapping
      *
      * @var string
      */
@@ -308,7 +308,6 @@ class SPF
     public function autoload($className)
     {
         $className = ltrim($className, '\\');
-        $loadPaths = $this->autoloadPaths;
         $lastDsPos = strrpos($className, '\\');
         if ($lastDsPos !== false) {
             $relatNs = substr($className, 0, $lastDsPos);
@@ -320,18 +319,18 @@ class SPF
         }
         foreach ($this->baseAutoloadPaths() as $name => $path) {
             if (preg_match('/^' . addslashes($name) . '/', $className)) {
-                $classFile = $path . DIRECTORY_SEPARATOR . $fileName;
-                if (is_file($classFile)) {
-                    require_once $classFile;
+                $pathFileName = $path . DIRECTORY_SEPARATOR . $fileName;
+                if (is_file($pathFileName)) {
+                    require_once $pathFileName;
                     return true;
                 }
                 return false;
             }
         }
-        foreach ($loadPaths as $path) {
-            $classFile = $path . DIRECTORY_SEPARATOR . $fileName;
-            if (is_file($classFile)) {
-                require_once $classFile;
+        foreach ($this->autoloadPaths as $path) {
+            $pathFileName = $path . DIRECTORY_SEPARATOR . $fileName;
+            if (is_file($pathFileName)) {
+                require_once $pathFileName;
                 return true;
             }
         }
@@ -339,7 +338,7 @@ class SPF
     }
 
     /**
-     * lib autoload路径
+     * system autoload class
      *
      * @return array
      */
