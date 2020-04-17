@@ -318,15 +318,7 @@ class SPF
         } else {
             $fileName = $className . '.php';
         }
-        if (preg_match('/^spf/', $className)) {
-            $classFile = dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . $fileName;
-            if (is_file($classFile)) {
-                require_once $classFile;
-                return true;
-            }
-            return false;
-        }
-        foreach ($this->libAutoloadPaths() as $name => $path) {
+        foreach ($this->baseAutoloadPaths() as $name => $path) {
             if (preg_match('/^' . addslashes($name) . '/', $className)) {
                 $classFile = $path . DIRECTORY_SEPARATOR . $fileName;
                 if (is_file($classFile)) {
@@ -351,10 +343,11 @@ class SPF
      *
      * @return array
      */
-    private function libAutoloadPaths()
+    private function baseAutoloadPaths()
     {
-        $path = dirname(dirname(__FILE__)) . '/lib';
+        $path = dirname(dirname(__FILE__));
         return [
+            'spf\\' => $path,
             'Monolog\\' => $path . '/lib/Monolog',
             'Psr\\Log\\' => $path . '/lib/Psr/Log',
         ];
