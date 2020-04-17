@@ -4,7 +4,6 @@
  * 应用建立后这里一般不再新增
  */
 $basePath = dirname(dirname(dirname(__FILE__)));
-$sitesPath = dirname(dirname(dirname(__FILE__)));
 return [
     'appPath' => dirname(__FILE__) . '/..',
 

@@ -127,6 +127,16 @@ class SPF
     }
 
     /**
+     * 获取App NameSpace
+     *
+     * @return string
+     */
+    public function getAppNamespace()
+    {
+        return $this->appNamespace;
+    }
+
+    /**
      * 执行框架主流程
      */
     public function run()

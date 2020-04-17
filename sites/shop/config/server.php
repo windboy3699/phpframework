@@ -52,4 +52,8 @@ return [
         'cookie_domain' => '.shop.com',
         'gc_maxlifetime'=> 86400,
     ],
+
+    'kafka' => [
+        'brokers' => '127.0.0.1',
+    ]
 ];

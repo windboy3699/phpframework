@@ -6,10 +6,14 @@
  * @author  XiaodongPan
  * @version $Id: AbstractJob.php 2017-04-21 $
  */
-namespace Shop\Admin\Job;
+namespace shop\job;
+
+use spf\SPF;
 
 abstract class AbstractJob
 {
+    protected $app;
+
     protected $commendArgs = array();
 
     abstract public function run();
@@ -17,9 +21,14 @@ abstract class AbstractJob
     /**
      * 规范使用长参数模式例如 --start=1 --end=2
      * @return array
-     *     array('start:','end:');
+     * array('start:','end:');
      */
     abstract function getOptArgs();
+
+    public function __construct()
+    {
+        $this->app = SPF::app();
+    }
 
     public function getCommendArgs()
     {

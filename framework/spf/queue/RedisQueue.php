@@ -10,7 +10,7 @@ namespace spf\queue;
 
 use spf\cache\Redis;
 
-class RedisQueue implements QueueInterface
+class RedisQueue
 {
     /**
      * @var Redis
