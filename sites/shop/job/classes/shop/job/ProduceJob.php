@@ -8,32 +8,39 @@
  */
 namespace shop\job;
 
-use spf\queue\KafkaConf;
-use spf\queue\KafkaProducer;
+use RdKafka\Conf;
+use RdKafka\Producer;
 
-class ProduceMsgJob extends AbstractJob
+class ProduceJob extends AbstractJob
 {
     public function getOptArgs()
     {
         return array(
-            'info:',
+            'msg:',
         );
     }
 
     public function run()
     {
-        $msg = $this->getCommendArg('info');
+        $msg = $this->getCommendArg('msg');
 
         $kafkaConf = $this->app->getConfig('kafka', 'server');
         $brokers = $kafkaConf['brokers'];
 
-        $conf = new KafkaConf();
+        $conf = new Conf();
         $conf->set('log_level', LOG_DEBUG);
+        //$conf->set('debug', 'all');
 
-        $producer = new KafkaProducer($conf);
+        $producer = new Producer($conf);
         $producer->addBrokers($brokers);
 
         $topic = $producer->newTopic('test');
+
+        /**
+         * 第一个参数是分区，RD_KAFKA_PARTITION_UA代表未分配，并让librdkafka自动选择分区
+         * 第二个参数是消息标志，应为0或RD_KAFKA_MSG_F_BLOCK以在完整队列上阻止生产
+         * 第三个参数是消息内容
+         */
         $topic->produce(RD_KAFKA_PARTITION_UA, 0, $msg);
     }
 }

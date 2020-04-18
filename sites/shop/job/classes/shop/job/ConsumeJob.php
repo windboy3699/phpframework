@@ -8,10 +8,10 @@
  */
 namespace shop\job;
 
-use spf\queue\KafkaConf;
-use spf\queue\KafkaConsumer;
+use RdKafka\Conf;
+use RdKafka\Consumer;
 
-class ConsumeMsgJob extends AbstractJob
+class ConsumeJob extends AbstractJob
 {
     public function getOptArgs()
     {
@@ -24,16 +24,28 @@ class ConsumeMsgJob extends AbstractJob
         $kafkaConf = $this->app->getConfig('kafka', 'server');
         $brokers = $kafkaConf['brokers'];
 
-        $conf = new KafkaConf();
+        $conf = new Conf();
         $conf->set('log_level', LOG_DEBUG);
 
-        $consumer = new KafkaConsumer($conf);
+        $consumer = new Consumer($conf);
         $consumer->addBrokers($brokers);
 
         $topic = $consumer->newTopic('test');
+        /**
+         * 第一个参数是要使用的分区
+         * 第二个参数是开始消费的偏移量
+         * RD_KAFKA_OFFSET_BEGINNING 从头开始消费
+         * RD_KAFKA_OFFSET_END 最后一条消费
+         * RD_KAFKA_OFFSET_STORED 最后一条消费的offset记录开始消费
+         *
+         */
         $topic->consumeStart(0, RD_KAFKA_OFFSET_BEGINNING);
 
         while (true) {
+            /**
+             * 第一个参数是分区
+             * 第二个参数是超时
+             */
             $msg = $topic->consume(0, 1000);
             if (null === $msg || $msg->err === RD_KAFKA_RESP_ERR__PARTITION_EOF) {
                 sleep(1);
