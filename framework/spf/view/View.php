@@ -8,9 +8,6 @@
  */
 namespace spf\view;
 
-require_once dirname(dirname(dirname(__FILE__))) . '/lib/Twig/Autoloader.php';
-\Twig_Autoloader::register();
-
 class View
 {
     private static $options = [

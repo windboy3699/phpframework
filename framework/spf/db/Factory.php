@@ -11,8 +11,6 @@ namespace spf\db;
 use PDO;
 use Medoo;
 
-require_once dirname(dirname(dirname(__FILE__))) . '/lib/Medoo/Medoo.php';
-
 class Factory
 {
     private $master = null;

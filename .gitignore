@@ -14,7 +14,7 @@ tags
 /config/*
 .tags*
 cscope.*
-/vendor
+vendor
 composer.lock
 *.hot-update*
 .*

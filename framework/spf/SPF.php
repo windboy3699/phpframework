@@ -17,6 +17,8 @@ use spf\db\Factory as DbFactory;
 use spf\cache\Memcache;
 use spf\cache\Redis;
 
+require __DIR__.'/../vendor/autoload.php';
+
 class SPF
 {
     /**
@@ -357,8 +359,6 @@ class SPF
         $path = dirname(dirname(__FILE__));
         return [
             'spf\\' => $path,
-            'Monolog\\' => $path . '/lib/Monolog',
-            'Psr\\Log\\' => $path . '/lib/Psr/Log',
         ];
     }
 }
