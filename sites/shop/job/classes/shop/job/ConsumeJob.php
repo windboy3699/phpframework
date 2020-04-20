@@ -37,7 +37,6 @@ class ConsumeJob extends AbstractJob
          * RD_KAFKA_OFFSET_BEGINNING 从头开始消费
          * RD_KAFKA_OFFSET_END 最后一条消费
          * RD_KAFKA_OFFSET_STORED 最后一条消费的offset记录开始消费
-         *
          */
         $topic->consumeStart(0, RD_KAFKA_OFFSET_BEGINNING);
 

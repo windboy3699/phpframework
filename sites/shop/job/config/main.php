@@ -9,12 +9,12 @@ return [
 
     'appNamespace' => 'shop\job',
 
-    'autoloadPaths' => [
+    'classPaths' => [
         $basePath . '/classes',
         $basePath . '/job/classes',
     ],
 
-    'loadConfigPaths' => [
+    'configPaths' => [
         $basePath . '/job/config',
         $basePath . '/config',
     ],

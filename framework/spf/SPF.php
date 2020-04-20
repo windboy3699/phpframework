@@ -36,7 +36,7 @@ class SPF
     private $appPath;
 
     /**
-     * 应用命名空间
+     * 应用基本命名空间
      * @var string
      */
     private $appNamespace;
@@ -46,14 +46,14 @@ class SPF
      *
      * @var array
      */
-    private $autoloadPaths = [];
+    private $classPaths = [];
 
     /**
      * 加载配置文件的目录
      *
      * @var array
      */
-    private $loadConfigPaths = [];
+    private $configPaths = [];
 
     /**
      * 路由模式 general|mapping
@@ -92,8 +92,8 @@ class SPF
     {
         $this->appPath = $configure['appPath'];
         $this->appNamespace = $configure['appNamespace'];
-        $this->autoloadPaths = $configure['autoloadPaths'];
-        $this->loadConfigPaths = $configure['loadConfigPaths'];
+        $this->classPaths = $configure['classPaths'];
+        $this->configPaths = $configure['configPaths'];
         $this->routeMode = $configure['routeMode'];
     }
 
@@ -256,7 +256,7 @@ class SPF
     public function getConfig($name, $file = 'common', $default = null)
     {
         if (!isset($this->components['configRepository'])) {
-            $this->components['configRepository'] = new ConfigRepository($this->loadConfigPaths);
+            $this->components['configRepository'] = new ConfigRepository($this->configPaths);
         }
         return $this->components['configRepository']->get($name, $file, $default);
     }
@@ -329,7 +329,7 @@ class SPF
         } else {
             $fileName = $className . '.php';
         }
-        foreach ($this->baseAutoloadPaths() as $name => $path) {
+        foreach ($this->baseClassPaths() as $name => $path) {
             if (preg_match('/^' . addslashes($name) . '/', $className)) {
                 $pathFileName = $path . DIRECTORY_SEPARATOR . $fileName;
                 if (is_file($pathFileName)) {
@@ -339,7 +339,7 @@ class SPF
                 return false;
             }
         }
-        foreach ($this->autoloadPaths as $path) {
+        foreach ($this->classPaths as $path) {
             $pathFileName = $path . DIRECTORY_SEPARATOR . $fileName;
             if (is_file($pathFileName)) {
                 require_once $pathFileName;
@@ -354,7 +354,7 @@ class SPF
      *
      * @return array
      */
-    private function baseAutoloadPaths()
+    private function baseClassPaths()
     {
         $path = dirname(dirname(__FILE__));
         return [

@@ -9,12 +9,12 @@ return [
 
     'appNamespace' => 'shop\admin',
 
-    'autoloadPaths' => [
+    'classPaths' => [
         $basePath . '/classes',
         $basePath . '/admin/controller',
     ],
 
-    'loadConfigPaths' => [
+    'configPaths' => [
         $basePath . '/admin/config',
         $basePath . '/config',
     ],
