@@ -29,16 +29,18 @@ class LoginController extends Controller
         }
         $groupModel = new SystemGroupModel();
         $group = $groupModel->findById($user['group_id']);
-        $_SESSION['systemUsername'] = $user['username'];
-        $_SESSION['systemRealname'] = $user['realname'];
-        $_SESSION['systemGroupId'] = $user['group_id'];
-        $_SESSION['systemGroupName'] = $group['name'];
+
+        $this->response->setSession('systemUsername', $user['username']);
+        $this->response->setSession('systemRealname', $user['realname']);
+        $this->response->setSession('systemGroupId', $user['group_id']);
+        $this->response->setSession('systemGroupName', $group['name']);
+
         $this->showResult(0, '');
     }
 
     public function logoutAction()
     {
-        session_destroy();
+        $this->response->sessionDestroy();
         $this->jump('/admin/login');
     }
 }

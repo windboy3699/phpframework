@@ -14,9 +14,9 @@ namespace shop;
 
 use spf\routing\Controller as BaseController;
 
-class ThrifttestController extends BaseController
+class TestController extends BaseController
 {
-    public function indexAction()
+    public function thriftAction()
     {
         $loader = new \Thrift\ClassLoader\ThriftClassLoader();
         $loader->registerNamespace('Thrift', FRAMEWORK_PATH . '/vendor/apache/thrift/lib/php/lib');

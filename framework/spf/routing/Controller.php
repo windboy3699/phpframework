@@ -24,6 +24,11 @@ abstract class Controller
     protected $request;
 
     /**
+     * @var \SPF\Http\Response
+     */
+    protected $response;
+
+    /**
      * @var \SPF\View\View
      */
     protected $view = null;
@@ -42,6 +47,7 @@ abstract class Controller
     {
         $this->app = SPF::app();
         $this->request = $this->app->getRequest();
+        $this->response = $this->app->getResponse();
         $this->init();
     }
 

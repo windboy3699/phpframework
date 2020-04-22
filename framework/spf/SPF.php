@@ -12,6 +12,7 @@ use spf\routing\GeneralRouter;
 use spf\routing\MappingRouter;
 use spf\interceptor\Interceptor;
 use spf\http\Request;
+use spf\http\Response;
 use spf\config\Repository as ConfigRepository;
 use spf\db\Factory as DbFactory;
 use spf\cache\Memcache;
@@ -72,9 +73,16 @@ class SPF
     /**
      * 请求组件
      *
-     * @var Request
+     * @var spf\http\Request
      */
     private $request;
+
+    /**
+     * 响应组件
+     *
+     * @var spf\http\Response
+     */
+    private $response;
 
     /**
      * 组件实例
@@ -243,6 +251,14 @@ class SPF
             $this->request = new Request();
         }
         return $this->request;
+    }
+
+    public function getResponse()
+    {
+        if (!$this->response) {
+            $this->response = new Response();
+        }
+        return $this->response;
     }
 
     /**
