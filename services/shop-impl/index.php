@@ -1,4 +1,10 @@
 <?php
+/**
+ * @todo 封装thrift
+ * 服务端根据url路由到不同的service
+ * 客户端通过new ThriftServiceFactory(\services\shop)然后调用service方法
+ * 返回值结构体的定义
+ */
 
 error_reporting(E_ALL & ~E_NOTICE);
 
