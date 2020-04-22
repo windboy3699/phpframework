@@ -82,6 +82,11 @@ class Redis implements CacheInterface
         return $this->getSlave()->get($key);
     }
 
+    public function del($key)
+    {
+        return $this->getMaster()->del($key);
+    }
+
     public function delete($key)
     {
         return $this->getMaster()->delete($key);
